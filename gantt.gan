@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Untitled Gantt Project" company="" webLink="http://" view-date="2016-01-01" view-index="0" gantt-divider-location="570" resource-divider-location="300" version="2.7.2" locale="fr">
+    <description/>
+    <view zooming-state="default:8" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="48" order="0"/>
+        <field id="tpd4" name="Date de début" width="22" order="1"/>
+        <field id="tpd5" name="Date de fin" width="28" order="2"/>
+        <option id="color.recent"><![CDATA[#99ff66 #ff6633 #cc99ff]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="50" order="0"/>
+        <field id="1" name="Rôle par défaut" width="49" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="0" mon="0" tue="0" wed="0" thu="0" fri="0" sat="0"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="8" name="Doc openstack/devstack" color="#cc99ff" meeting="false" start="2016-01-18" duration="24" complete="100" expand="true" cost-manual-value="0.25" cost-calculated="true">
+            <notes><![CDATA[Travail de documentation sur le fonctionnement et la prise en main d'openstack.]]></notes>
+        </task>
+        <task id="2" name="Deploiement single machine" color="#cc99ff" meeting="false" start="2016-01-18" duration="24" complete="100" expand="true">
+            <notes><![CDATA[Installation all in a single machine d'openstack sur chacune de nos machines personnelles.]]></notes>
+        </task>
+        <task id="12" name="Redaction rapport" color="#99ff66" meeting="false" start="2016-02-11" duration="74" complete="2" expand="true">
+            <task id="25" name="Plan du rapport" color="#99ff66" meeting="false" start="2016-02-11" duration="6" complete="100" expand="true">
+                <notes><![CDATA[Elaboration du plan des différentes parties du rapport.]]></notes>
+                <depend id="14" type="2" difference="0" hardness="Strong"/>
+                <depend id="15" type="2" difference="0" hardness="Strong"/>
+                <depend id="17" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="14" name="Présentation du cloud : 2 pages" color="#99ff66" meeting="false" start="2016-02-17" duration="63" complete="0" expand="true">
+                <notes><![CDATA[Explication sur le fonctionnement du cloud.]]></notes>
+                <depend id="118" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="15" name="Présentation virtualisation : 2 pages" color="#99ff66" meeting="false" start="2016-02-17" duration="63" complete="0" expand="true">
+                <notes><![CDATA[Explication sur le fonctionnement de la virtualisation.]]></notes>
+                <depend id="118" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="17" name="Présentation problèmes précis : 2 pages" color="#99ff66" meeting="false" start="2016-02-17" duration="63" complete="0" expand="true">
+                <notes><![CDATA[Explication précise du travail attendu pour le projet.]]></notes>
+                <depend id="118" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="36" name="Introduction" color="#99ff66" meeting="false" start="2016-02-24" duration="7" complete="0" expand="true">
+                <notes><![CDATA[brève introduction résumant le travail accompli, présentant l'environnement et le déroulement du projet en quelques phrases et se terminant par le plan du rapport (+/- 1 page)]]></notes>
+                <depend id="118" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="118" name="Finaliser rapport" color="#99ff66" meeting="false" start="2016-04-20" duration="5" complete="0" expand="true">
+                <depend id="13" type="2" difference="0" hardness="Strong"/>
+            </task>
+        </task>
+        <task id="1" name="Diagramme de GANTT" color="#8cb6ce" meeting="false" start="2016-02-11" duration="6" complete="100" expand="true">
+            <notes><![CDATA[Elaboration d'un diagramme de GANTT]]></notes>
+        </task>
+        <task id="0" name="Getting started grid5000" color="#8cb6ce" meeting="false" start="2016-02-11" duration="6" complete="100" expand="true">
+            <notes><![CDATA[Travail de documenation sur grid5000, ssh, screen]]></notes>
+            <depend id="3" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="3" name="Obtenir compte grid5000 et déploiement Grid5000" color="#8cb6ce" meeting="false" start="2016-02-17" duration="7" complete="0" expand="true">
+            <notes><![CDATA[Après avoir obtenu 4 comptes grid5000, prise en main de grid5000]]></notes>
+            <depend id="5" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="5" name="Deploiement + prise en main openstack sur grid5000" color="#8cb6ce" meeting="false" start="2016-02-24" duration="7" complete="0" expand="true">
+            <notes><![CDATA[Prise en main des commandes d'openstack après son installation sur des nodes de grid5000]]></notes>
+            <depend id="6" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="6" name="Installer une application sur une VM openstack" color="#8cb6ce" meeting="false" start="2016-03-02" duration="7" complete="0" expand="true">
+            <notes><![CDATA[Installer une application sur une VM openstack.]]></notes>
+            <depend id="9" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="9" name="Automatiser lancement d'un script installation logiciel" color="#8cb6ce" meeting="false" start="2016-03-09" duration="14" complete="0" expand="true">
+            <notes><![CDATA[Créer un script permettant d'installer n'importe quel logiciel sur une VM openstack]]></notes>
+            <depend id="10" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="10" name="Automatiser création VM + lancement sript" color="#8cb6ce" meeting="false" start="2016-03-23" duration="33" complete="0" expand="true">
+            <notes><![CDATA[Créer un script permettant d'installer n'importe quel logiciel sur un nombre donné de VM.]]></notes>
+            <depend id="13" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="13" name="Préparation de l'oral" color="#ff6633" meeting="false" start="2016-04-25" duration="5" complete="0" expand="true">
+            <notes><![CDATA[Préparation du powerpoint ainsi que répétition à l'oral.]]></notes>
+        </task>
+    </tasks>
+    <resources>
+        <resource id="3" name="Alexandre" function="Default:0" contacts="" phone=""/>
+        <resource id="1" name="Charles" function="Default:0" contacts="" phone=""/>
+        <resource id="0" name="Jérémy" function="Default:0" contacts="" phone=""/>
+        <resource id="2" name="Théo" function="Default:0" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="8" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="2" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="25" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="36" resource-id="3" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="14" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="15" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="17" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="1" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="0" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="3" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="6" resource-id="3" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="9" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="10" resource-id="3" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="13" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="118" resource-id="3" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="8" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="2" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="25" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="14" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="15" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="17" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="1" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="0" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="3" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="5" resource-id="1" function="Default:0" responsible="true" load="25.0"/>
+        <allocation task-id="6" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="9" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="10" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="13" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="118" resource-id="1" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="8" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="2" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="25" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="14" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="15" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="17" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="1" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="0" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="3" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="5" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="6" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="9" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="10" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="13" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="118" resource-id="0" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="8" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="2" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="25" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="14" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="15" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="17" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="1" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="0" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="3" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="5" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="6" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="9" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="10" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="13" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+        <allocation task-id="118" resource-id="2" function="Default:0" responsible="false" load="25.0"/>
+    </allocations>
+    <vacations/>
+    <taskdisplaycolumns>
+        <displaycolumn property-id="tpd2" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd7" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd12" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd3" order="0" width="272" visible="true"/>
+        <displaycolumn property-id="tpd4" order="1" width="130" visible="true"/>
+        <displaycolumn property-id="tpd5" order="2" width="164" visible="true"/>
+        <displaycolumn property-id="tpd6" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd10" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd11" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd1" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd8" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd13" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
+    </taskdisplaycolumns>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>
