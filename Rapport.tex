@@ -1,32 +1,34 @@
 \documentclass{report}
 
-% Pour les chapitres sans numéro
-\newcommand{\mychapter}[2]{
-    \setcounter{chapter}{0}
-    \setcounter{section}{0}
-    \chapter*{#2}
-    \addcontentsline{toc}{chapter}{#2}
-}
-
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
-\usepackage{hyperref}
+\usepackage{hyperref} % Pour les liens
+\usepackage{titlesec, blindtext}
+\usepackage{graphicx}
+\newcommand{\hsp}{\hspace{15pt}}
+\titleformat{\chapter}[hang]{\Huge}{\thechapter{.}\hsp}{0pt}{\Huge}
 
 \title{%
     \begin{minipage}\linewidth
-        \centering
-        RAPPORT DE PROJET
-        \linebreak
-        \large "Cloud et virtualisation avec Openstack"
+        \centering{
+            RAPPORT DE PROJET \break
+            "Cloud et virtualisation avec Openstack"
+        }
     \end{minipage}
 }
 \author{%
     \begin{minipage}\linewidth
-        \centering
-        Tutrice : BOUZIANE HINDE\linebreak
-        \linebreak
-        \large Groupe : CULTY Alexandre, BENAIS Charles, BRESSAND Jérémy, ROGLIANO Théo
+        \centering{Tutrice : BOUZIANE Hinde\break}
+        \break
+        \centering{
+            Groupe : \break
+            CULTY Alexandre,\break
+            BENAIS Charles,\break
+            BRESSAND Jérémy,\break
+            ROGLIANO Théo
+        }
+        \break
     \end{minipage}
 }
 \date{2015 - 2016}
@@ -35,77 +37,84 @@
 
 \maketitle % Page de garde
 
+\large % Pour la taille de la police
+
+% ------------------------------ REMERCIEMENTS ------------------------------
+\newpage
+\chapter*{Remerciements}
+    Nous tenons tout d'abord à remercier madame BOUZIANE Hinde, notre tutrice de projet, qui nous a permis de réaliser ce projet.\break
+
+    Nous voulons aussi remercier l'équipe de Grid5000 qui nous à permis de réaliser ce projet sur leur système en nous donnant accès à leurs serveurs.
+
+
 
 % ------------------------------ INTRODUCTION ------------------------------
 \newpage
-\mychapter{1}{Introduction}
-\section{Présentation du cloud}
-    \large{
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ante ipsum,
-        congue semper nisi ac, fermentum sagittis lorem. Aliquam egestas, elit vitae
-        ultrices mattis, felis ipsum euismod nibh, nec tristique metus ante at dolor.
-        Curabitur dapibus metus ut felis gravida viverra. Quisque vel sapien tellus.
-        Etiam nec molestie magna. Curabitur ac placerat eros. Praesent eget risus
-        condimentum, viverra augue et, rutrum erat. Maecenas in justo tincidunt,
-        luctus massa nec, egestas diam. In cursus dignissim elit, at bibendum nunc
-        pretium eu. Integer imperdiet aliquet gravida.
-}
+\chapter*{Introduction}
+    \begin{quote}
+        «Le cloud computing c'est l'exploitation de la puissance de calcul ou de stockage de serveurs informatiques distants par l'intermédiaire d'un réseau.» [Wikipédia]
+    \end{quote}
+    
+    Le cloud est né à la suite de la multiplication des centres de données, de l'expension de la vitesse des communications ainsi que de la maitrise de la virtualisation.\break
+    
+    L'intérêt du cloud tiens dans le fait que les serveurs sont loués à la demande, et que la facturation soit fait à l'usage.\break
+    
+    On distingue trois grands services de cloud :
+    \begin{itemize}
+        \item IaaS : Infrastructure as a Service, qui donne accès à des machines virtuelles sur lesquelles l'utilisateur peut installer son propre système d'exploitation et faire évoluer les caractéristiques du serveur à la demande (exemple : location d'un VPS).
+        \item PaaS : Platform as a Service, l'utilisateur installe ses propres applications (exemple : installation de LAMP).
+        \item SaaS : Software as a Service, les applications sont directement mis à disposition des utilisateurs, celui-ci ne s'occupe en rien de la gestion du serveur (exemple : utilisation d'un logiciel de VoIP).
+    \end{itemize}
+    \bigbreak
+    Il existe aussi d'autres services, comme par exemple le DaaS (Data as a service), STaaS (Storage as a service), etc, mais les trois cités plsu haut sont les plus populaires.
 
 
 % ------------------------------ CONTENU ------------------------------
 \newpage
-\section{Présentation des domaines}
-Réseau, Virtualisation, Administration, Informatique distribuée, IaaS,
-OpenStack, Puppet, Scripting, 
+\chapter{Domaines d'applications}
 
-\section{Présentation du problème}
-\subsection{Mise en place}
-\subsubsection{Single machine}
+
+\chapter{Travail réalisé}
+\section{Mise en place}
+\subsection{Single machine}
 Dans le but de nous familiariser avec ce nouvel environnement,
 et l'accès à des machines possédant les droits administrateurs (sudo)
 ne nous étant pas offert à la faculté des sciences,
 nous avons choisi de mettre en place OpenStack sur nos machines personnelles.\break
-Devstack est un script bash automatisant la mise en place d'un environnement OpenStack 
-sur une grande variété de machines; mis en place par la communauté, 
-DevStack à pour objectif de fournir un 'quick operational testing', une démonstration 
-d'OpenStack et de ses fonctionnalités.
+Devstack est un script bash automatisant la mise en place des modules OpenStack...
 
-\subsubsection{Multi-nodes}
+\subsection{Multi-nodes}
 Dans un second temps il nous à été offert l'opportunité de travailler sur les clusters
 de Grid5000, un Réseau de Ressources distribuées supporté par l'INRIA et le CNRS.\break
+Cela nous a permis de...
 
-\section{Description du travail}
-Automatisation de l'installation de logiciel sur un parc de VM OpenStack via Puppet
+
+\chapter{Problèmes rencontrés}
+
+
 
 % ------------------------------ CONCLUSION ------------------------------
 \newpage
-\mychapter{0}{Conclusion}
+\chapter*{Conclusion}
 
 
-% ------------------------------ REMERCIEMENTS ------------------------------
+% ------------------------------ RESSOURCES DOCUMENTAIRES ------------------------------
 \newpage
-\mychapter{0}{Remerciements}
-\large{
-    Nous tenons tout d'abord à remercier madame BOUZIANE Hinde, notre tutrice de projet, qui nous a permis de réaliser ce projet.\linebreak
-
-    Nous voulons aussi remercier l'équipe de Grid5000 qui nous à permis de réaliser ce projet sur leur système en nous donnant accès à leurs serveurs.
-}
-
-% ------------------------------ RESSOURCES DOCUMENTAIREs ------------------------------
-\newpage
-\mychapter{0}{Ressources documentaires}
+\chapter*{Ressources documentaires}
 \href{http://docs.openstack.org/developer/devstack/}{Devstack} :
 \url{http://docs.openstack.org/developer/devstack/}
 \bigbreak
 \href{http://www.openstack.org/}{Openstack} :
 \url{http://www.openstack.org/}
 \bigbreak
-\href{https://puppetlabs.com/puppet/what-is-puppet}{Puppet} :
-\url{https://puppetlabs.com/puppet/what-is-puppet}
-\bigbreak
 \href{https://www.grid5000.fr/}{Grid5000} :
 \url{https://www.grid5000.fr/}
-\bigbreak
-\href{https://github.com/grid5000/xp5k-openstack}{XP5K} :
-\url{https://github.com/grid5000/xp5k-openstack}
+
+
+% ------------------------------ ANNEXES ------------------------------
+\newpage
+\chapter*{Annexes}
+
+
+
 \end{document}
