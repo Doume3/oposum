@@ -5,7 +5,10 @@
 \usepackage[francais]{babel}
 \usepackage{hyperref} % Pour les liens
 \usepackage{titlesec, blindtext}
+\usepackage{microtype}
+\usepackage{blindtext}
 \usepackage{graphicx}
+\graphicspath{{images/}}
 \newcommand{\hsp}{\hspace{15pt}}
 \titleformat{\chapter}[hang]{\Huge}{\thechapter{.}\hsp}{0pt}{\Huge}
 
@@ -54,10 +57,13 @@
     \begin{quote}
         «Le cloud computing c'est l'exploitation de la puissance de calcul ou de stockage de serveurs informatiques distants par l'intermédiaire d'un réseau.» [Wikipédia]
     \end{quote}
-    
-    Le cloud est né à la suite de la multiplication des centres de données, de l'expension de la vitesse des communications ainsi que de la maitrise de la virtualisation.\break
-    
-    L'intérêt du cloud tiens dans le fait que les serveurs sont loués à la demande, et que la facturation soit fait à l'usage.\break
+    \bigbreak
+
+    Dans les années 1950, les utilisateurs accédaient depuis leurs terminaux à leurs applications sur des serveurs appelés «mainframes», l'ancêtre du cloud computing.\break
+    Dans les années 2000, les ASP (fournisseur de service d'application), apparaissent et hébergent des serveurs web, mails, etc.\break
+    Le cloud est né à la suite de la multiplication des centres de données, de l'expension de la vitesse des communications et de la vitesse des calculs ainsi que de la maitrise de la virtualisation.\break
+
+    L'intérêt du cloud tiens dans le fait que les serveurs sont loués à la demande, et que la facturation soit fait à l'usage. Autrement dit, le client paye uniquement l'utilisation réelle qu'il en a fait, pour les caractéristiques précises qu'il peut modifier.\break
     
     On distingue trois grands services de cloud :
     \begin{itemize}
@@ -66,30 +72,48 @@
         \item SaaS : Software as a Service, les applications sont directement mis à disposition des utilisateurs, celui-ci ne s'occupe en rien de la gestion du serveur (exemple : utilisation d'un logiciel de VoIP).
     \end{itemize}
     \bigbreak
-    Il existe aussi d'autres services, comme par exemple le DaaS (Data as a service), STaaS (Storage as a service), etc, mais les trois cités plsu haut sont les plus populaires.
+    
+    Il existe aussi d'autres services, comme par exemple le DaaS (Data as a service), STaaS (Storage as a service), etc, mais les trois cités plus haut sont les plus populaires.\break
+    
+    En résumé, avec le cloud computing plus besoin de serveurs locaux à entretenir, tous les services sont accessible via internet et sont interconnectés.\break
+    
+    [image des responsabilités]
 
 
 % ------------------------------ CONTENU ------------------------------
+% --------------- 1 ---------------
 \newpage
 \chapter{Domaines d'applications}
 
 
+% --------------- 2 ---------------
 \chapter{Travail réalisé}
-\section{Mise en place}
-\subsection{Single machine}
-Dans le but de nous familiariser avec ce nouvel environnement,
-et l'accès à des machines possédant les droits administrateurs (sudo)
-ne nous étant pas offert à la faculté des sciences,
-nous avons choisi de mettre en place OpenStack sur nos machines personnelles.\break
-Devstack est un script bash automatisant la mise en place des modules OpenStack...
+    \section{Mise en place}
+        \subsection{Single machine}
+            Dans le but de nous familiariser avec ce nouvel environnement,
+            et l'accès à des machines possédant les droits administrateurs (sudo)
+            ne nous étant pas offert à la faculté des sciences,
+            nous avons choisi de mettre en place OpenStack sur nos machines personnelles.\break
+            Devstack est un script bash automatisant la mise en place des modules OpenStack...
 
-\subsection{Multi-nodes}
-Dans un second temps il nous à été offert l'opportunité de travailler sur les clusters
-de Grid5000, un Réseau de Ressources distribuées supporté par l'INRIA et le CNRS.\break
-Cela nous a permis de...
+        \subsection{Multi-nodes}
+            Dans un second temps il nous à été offert l'opportunité de travailler sur les clusters
+            de Grid5000, un Réseau de Ressources distribuées supporté par l'INRIA et le CNRS.\break
+            Cela nous a permis de...
 
 
+% --------------- 3 ---------------
 \chapter{Problèmes rencontrés}
+    \section{DevStack}
+        Au début du projet, nous avons commencé à travailler en utilisant DevStack qui permet d'installer OpenStack sur une seule machine.
+        \subsection{Installation}
+            Blah
+        \subsection{Configuration}
+            Blah
+    \section{OpenStack sur Grid5000}
+        Chacun rencontrant des difficultés lors de l'installation de DevStack Mme. BOUZIANE nous à proposer d'utilisé le système de Grid5000 afin de pouvoir utilisé les scripts d'installation d'OpenStack déjà existant.
+        \subsection{Script d'automatisation de création de VM}
+            
 
 
 
@@ -109,6 +133,10 @@ Cela nous a permis de...
 \bigbreak
 \href{https://www.grid5000.fr/}{Grid5000} :
 \url{https://www.grid5000.fr/}
+\bigbreak
+\href{https://fr.wikipedia.org/wiki/Cloud_computing/}{Wikipédia} :
+\url{https://fr.wikipedia.org/wiki/Cloud_computing/}
+
 
 
 % ------------------------------ ANNEXES ------------------------------
