@@ -1,0 +1,4 @@
+screen rake run
+split -v
+focus
+screen -t shell 0

@@ -43,5 +43,5 @@ echo '#+------------------------+';
 nova secgroup-add-rule default tcp 10000 10100 0.0.0.0/0;" host=controller;
 
 
-./APP_installer.sh;
-echo "Message inutile juste pour voir si on en revient";
+#./APP_installer.sh;
+

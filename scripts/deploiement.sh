@@ -53,7 +53,7 @@ gateway         \"#{ENV['USER']}@frontend.#{self[:site]}.grid5000.fr\"" >> xp.co
 #+------------------------+
 #|		Start deployment    |
 #+------------------------+
-screen -d -S screen_rake `rake run`;
+screen -c shellScreen;
 
 
 #+------------------------+
@@ -66,7 +66,7 @@ cat ~/.ssh/id_rsa.pub | ssh root@$VAR "source openstack-openrc.sh && nova keypai
 #+------------------------+
 #|	Launch a VM instance	|
 #+------------------------+
-./VM_launcher.sh;
+#./VM_launcher.sh;
 
 
 # --- Stop the experiment
