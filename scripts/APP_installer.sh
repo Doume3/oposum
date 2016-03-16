@@ -16,7 +16,7 @@ for IP in $IPs; do
 echo "VM : $IP";
 
 scp -p -r ../Serveur debian@$IP: ; #/!\ les applications sont présentes sur le frontend
-ssh debian@$IP "sudo apt-get update; sudo apt-get install gcc make; cd Serveur/chat/; make"; # Serveur/chat ou Serveur/FTP
+ssh debian@$IP "sudo apt-get -y update; sudo apt-get -y install gcc make; cd Serveur/chat/; make"; # Serveur/chat ou Serveur/FTP
 
 echo "Apps installees";
 
