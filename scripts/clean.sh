@@ -1,13 +1,13 @@
 #!/bin/bash
 
 
-echo "--------------------";
+echo "+------------------+";
 echo "|  Destruction VM  |";
-echo "--------------------";
+echo "+------------------+";
 
 rake cmd cmd="source openstack-openrc.sh;
 
-VMVAR=\`nova list | cut -d '|' -f 3 | cut -c 2- | grep -v -E \"Name|--+\"\`;
+VMVAR=\`nova list | cut -d '|' -f 3 | cut -c 2- | grep -v -E 'Name|--+'\`;
 for VM in \$VMVAR;do
 nova delete \$VM;
 done" host=controller;
