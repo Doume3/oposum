@@ -34,13 +34,19 @@ echo '#+------------------------+';
  
 IP_PUB=\`nova floating-ip-create public | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'\`;
 nova add-floating-ip $1 \$IP_PUB;
-
+echo \$IP_PUB;
 
 echo '#+------------------------+';
 echo '#|			MODIFIE DROITS		|';
 echo '#+------------------------+';
 
-nova secgroup-add-rule default tcp 10000 10100 0.0.0.0/0;" host=controller;
+VAR_RULE=\`(nova secgroup-list-rules default | grep -o 10000)\`;
+
+if [ \$VAR_RULE -ne 10000 ]
+then
+	nova secgroup-add-rule default tcp 10000 10100 0.0.0.0/0;
+fi
+ " host=controller;
 
 
 #./APP_installer.sh;
