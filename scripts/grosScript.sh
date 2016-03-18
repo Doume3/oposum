@@ -30,6 +30,10 @@ then
 	exit $ERR_ARGS;
 fi
 
+if ! [ -d ../../Serveur/ ]; then
+	#/!\ les applications sont presentes dans frontend/xp5k-openstack/Serveur
+	echo 'Nothing to deploy.. There is no Serveur/ in xp5k-openstack directory !';
+fi
 
 echo '#+------------------------+';
 echo '#|       VM_LAUNCHER      |';
@@ -42,7 +46,6 @@ do
 
 	echo '#### CREATION VM1 ####';
 	nova boot --flavor m1.$2 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron net-show -c id -f value private) --key_name demo default$i;
-
 
 	echo '#### AJOUTE IP PUBLIQUE ####';
 	IP_PUB=\`nova floating-ip-create public | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'\`;
@@ -57,7 +60,7 @@ do
 		nova secgroup-add-rule default tcp 10000 10100 0.0.0.0/0;
 	fi
 	 " host=controller;
-	
+
 done
 
 #On fetch l'adresse du controller
@@ -66,16 +69,14 @@ echo "*Adresse du controller* > $ADR";
 
 #On s'y connecte pour fetch la liste des IP_VM
 IPs=`ssh root@$ADR 'source openstack-openrc.sh && nova floating-ip-list' | cut -d '|' -f 3 | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'`;
-echo "*IP VMs* > $IPs";
+echo "#### IP VMs > $IPs ####";
 
 for IP in $IPs; do
-echo "VM : $IP";
+echo "#### VM : $IP ####";
 
-scp -p -r ../../Serveur/ debian@$IP: ; #/!\ les applications sont présentes sur le frontend
-ssh debian@$IP "sudo apt-get -y update; sudo apt-get -y install gcc make; cd Serveur/$1/; make;"; # Serveur/chat ou Serveur/FTP
+scp -p -r ../../Serveur/ debian@$IP: ;
+ssh debian@$IP "sudo apt-get -y update; sudo apt-get -y install gcc make; cd Serveur/$1/; make;";
 
-echo 'Apps installees';
-
+echo '#### Apps installees ####';
 done
-
 
