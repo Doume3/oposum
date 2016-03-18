@@ -53,7 +53,7 @@ gateway         \"#{ENV['USER']}@frontend.#{self[:site]}.grid5000.fr\"" >> xp.co
 #+------------------------+
 #|		Start deployment    |
 #+------------------------+
-screen -c shellScreen;
+screen rake run
 
 
 #+------------------------+
