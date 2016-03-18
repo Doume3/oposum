@@ -5,14 +5,14 @@ ERR_ARGS=85
 
 if [ $# -ne 2 ]  # Correct number of arguments passed to script?
 then
-  echo "Usage: `basename $0` vm_name"
+  echo "Usage: `basename $0` vm_name vm_size"
   exit $ERR_ARGS
 fi
 
-case $2 in:
-    xs | tiny | small | xs | medium | large | xlarge ) 
+case $2 in
+    xs | tiny | small | medium | large | xlarge )
         echo "Flavor : $2";;
-    *) 
+    * )
 	echo "Usage: xs | tiny | small | medium | large | xlarge : $2";
 	exit $ERR_ARGS;;
 esac
