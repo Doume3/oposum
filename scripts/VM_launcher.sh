@@ -3,11 +3,20 @@
 #$>frontend
 ERR_ARGS=85
 
-if [ $# -ne 1 ]  # Correct number of arguments passed to script?
+if [ $# -ne 2 ]  # Correct number of arguments passed to script?
 then
   echo "Usage: `basename $0` vm_name"
   exit $ERR_ARGS
 fi
+
+case $2 in:
+    xs | tiny | small | xs | medium | large | xlarge ) 
+        echo "Flavor : $2";;
+    *) 
+	echo "Usage: xs | tiny | small | medium | large | xlarge : $2";
+	exit $ERR_ARGS;;
+esac
+
 
 echo '#+------------------------+';
 echo '#|       VM_LAUNCHER      |';
@@ -17,7 +26,7 @@ rake cmd cmd="echo '#### START_RAKE ####';
 source openstack-openrc.sh;
 
 echo '#### CREATION VM1 ####';
-nova boot --flavor m1.xs --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron net-show -c id -f value private) --key_name demo $1;
+nova boot --flavor m1.$2 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron net-show -c id -f value private) --key_name demo $1;
 
 
 echo '#### AJOUTE IP PUBLIQUE ####';
