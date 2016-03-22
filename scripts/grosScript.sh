@@ -49,6 +49,7 @@ do
 
 	echo '#### AJOUTE IP PUBLIQUE ####';
 	IP_PUB=\`nova floating-ip-create public | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'\`;
+	\`sleep 2\`;
 	nova add-floating-ip default$i \$IP_PUB;
 	echo \$IP_PUB;
 
