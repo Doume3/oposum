@@ -84,43 +84,53 @@
 % --------------- 1 ---------------
 \newpage
 \chapter{Domaines d'applications}
-
+ #OpenStackv
 
 % --------------- 2 ---------------
 \chapter{Travail réalisé}
+    \begin{quote}
+        « The world will be distributed » Mark Collier, OpenStack Foundation
+    \end{quote}
+    \bigbreak
     \section{Mise en place}
         \subsection{Single machine}
-            Dans le but de nous familiariser avec ce nouvel environnement,
+            Dans le but de nous familiariser avec ce nouveau domaine,
             et l'accès à des machines possédant les droits administrateurs (sudo)
             ne nous étant pas offert à la faculté des sciences,
             nous avons choisi de mettre en place OpenStack sur nos machines personnelles.\break
-            Devstack est un script bash automatisant la mise en place des modules OpenStack...
+            Devstack est un script bash automatisant la mise en place des modules OpenStack, 
+            avec une configuration minimale.
 
         \subsection{Multi-nodes}
             Dans un second temps il nous à été offert l'opportunité de travailler sur les clusters
             de Grid5000, un Réseau de Ressources distribuées supporté par l'INRIA et le CNRS.\break
             Cela nous à permis de mettre en place un environnement de Cloud OpenStack stable et itérable, 
-						dans le but d'offrir des démonstrations ou scénario de déploiement de machines virtuelles,
-						utilisées pour offrir de support à une application, un programme ou plus simplement d'exemple de 
-						configuration réseau~ 
-					\subsubsection{Client-Serveur Chat}
-						Réseau de VM fermé
-					\subsubsection{FTP}
-						Réseau de VM ouvert sur conditions
-					\subsubsection{Apache}
-						Réseau de VM wide open
+			dans le but d'offrir des démonstrations ou scénario de déploiement de machines virtuelles,
+			utilisées pour offrir de support à une application, un programme ou plus simplement d'exemple de 
+			configuration réseau~ 
+			\subsubsection{Client-Serveur Chat}
+			    Réseau de VM fermé
+			\subsubsection{FTP}
+				Réseau de VM ouvert sur conditions
+			\subsubsection{Apache}
+				Réseau de VM wide open
 
 % --------------- 3 ---------------
 \chapter{Problèmes rencontrés}
     \section{DevStack}
-        Au début du projet, nous avons commencé à travailler en utilisant DevStack qui permet d'installer OpenStack sur une seule machine.
-        \subsection{Installation}
-            Blah
-        \subsection{Configuration}
-            Blah
+        Les premières semaines du TER, nous avons commencer par travailler OpenStack en utilisant DevStack, 
+        qui permet d'installer différents modules de base OpenStack sur une unique machine.
+        \subsection{Installation & Configuration}
+            DevStack requiert une configuration minimale, ainsi que des prérequis de configuration (systeme, 
+            network).\break
+            Il n'à pas été aisé de mettre en place cette configuration, et, quand bien même une configuration 
+            DevStack ait été correctement mise en place et fonctionnelle, celle-ci n'à pour durée de vie qu'une session ! 
+            
+            
     \section{OpenStack sur Grid5000}
-        Chacun rencontrant des difficultés lors de l'installation de DevStack Mme. BOUZIANE nous à proposer d'utilisé le système de Grid5000 afin de pouvoir utilisé les scripts d'installation d'OpenStack déjà existant.
-        \subsection{Script d'automatisation de création de VM}
+        Chacun rencontrant des difficultés lors du déploiement DevStack Mme. BOUZIANE à pu obtenir un accès au reseau 
+        de Grid5000 afin de pouvoir utiliser les scénarios de déploiement d'OpenStack existants.
+        \subsection{XP5K-OpenStack}
             
 
 
