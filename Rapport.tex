@@ -4,15 +4,15 @@
 \usepackage[T1]{fontenc}
 \usepackage[francais]{babel}
 \usepackage{hyperref} % Pour les liens
-\usepackage{titlesec, blindtext}
-\usepackage{microtype}
-\usepackage{blindtext}
+% \usepackage{titlesec}
+% \usepackage{microtype}
+% \usepackage{blindtext}
 \usepackage{graphicx}
 \graphicspath{{images/}}
 \newcommand{\hsp}{\hspace{15pt}}
-\titleformat{\chapter}[hang]{\Huge}{\thechapter{.}\hsp}{0pt}{\Huge}
+% \titleformat{\chapter}[hang]{\Huge}{\thechapter{.}\hsp}{0pt}{\Huge}
 
-\title{%
+\title{
     \begin{minipage}\linewidth
         \centering{
             RAPPORT DE PROJET \break
@@ -20,7 +20,7 @@
         }
     \end{minipage}
 }
-\author{%
+\author{
     \begin{minipage}\linewidth
         \centering{Tutrice : BOUZIANE Hinde\break}
         \break
@@ -34,7 +34,7 @@
         \break
     \end{minipage}
 }
-\date{2015 - 2016}
+\date{2016}
 
 \begin{document}
 
@@ -77,16 +77,23 @@
     
     En résumé, avec le cloud computing plus besoin de serveurs locaux à entretenir, tous les services sont accessible via internet et sont interconnectés.\break
     
-    [image des responsabilités]
+    \begin{figure}
+        \includegraphics[width=\textwidth]{responsabilites}
+        \caption{Les responsabilités par service du cloud [Wikipédia]}
+    \end{figure}
 
 
 % ------------------------------ CONTENU ------------------------------
 % --------------- 1 ---------------
 \newpage
-\chapter{Domaines d'applications}
- #OpenStackv
+\chapter{OpenStack}
+    \begin{figure}
+        \includegraphics[width=\textwidth]{openstack_arch}
+        \caption{Les responsabilités par service du cloud [Wikipédia]}
+    \end{figure}
 
 % --------------- 2 ---------------
+\newpage
 \chapter{Travail réalisé}
     \begin{quote}
         « The world will be distributed » Mark Collier, OpenStack Foundation
@@ -99,15 +106,15 @@
             ne nous étant pas offert à la faculté des sciences,
             nous avons choisi de mettre en place OpenStack sur nos machines personnelles.\break
             Devstack est un script bash automatisant la mise en place des modules OpenStack, 
-            avec une configuration minimale.
+            avec une configuration minimale.\break
 
         \subsection{Multi-nodes}
             Dans un second temps il nous à été offert l'opportunité de travailler sur les clusters
             de Grid5000, un Réseau de Ressources distribuées supporté par l'INRIA et le CNRS.\break
             Cela nous à permis de mettre en place un environnement de Cloud OpenStack stable et itérable, 
 			dans le but d'offrir des démonstrations ou scénario de déploiement de machines virtuelles,
-			utilisées pour offrir de support à une application, un programme ou plus simplement d'exemple de 
-			configuration réseau~ 
+			utilisées comme support à une application, un programme ou plus simplement d'exemple de 
+			configuration. (réseau)\break
 			\subsubsection{Client-Serveur Chat}
 			    Réseau de VM fermé
 			\subsubsection{FTP}
@@ -119,8 +126,8 @@
 \chapter{Problèmes rencontrés}
     \section{DevStack}
         Les premières semaines du TER, nous avons commencer par travailler OpenStack en utilisant DevStack, 
-        qui permet d'installer différents modules de base OpenStack sur une unique machine.
-        \subsection{Installation & Configuration}
+        qui permet d'installer différents modules de base OpenStack sur une unique machine.\break
+        \subsection{Installation \& Configuration}
             DevStack requiert une configuration minimale, ainsi que des prérequis de configuration (systeme, 
             network).\break
             Il n'à pas été aisé de mettre en place cette configuration, et, quand bien même une configuration 
@@ -129,7 +136,7 @@
             
     \section{OpenStack sur Grid5000}
         Chacun rencontrant des difficultés lors du déploiement DevStack Mme. BOUZIANE à pu obtenir un accès au reseau 
-        de Grid5000 afin de pouvoir utiliser les scénarios de déploiement d'OpenStack existants.
+        de Grid5000 afin de pouvoir utiliser les scénarios de déploiement d'OpenStack existants.\break
         \subsection{XP5K-OpenStack}
             
 
@@ -164,3 +171,10 @@
 
 
 \end{document}
+
+% --------------------------- INSTALLATION LATEX ----------------------
+%sudo apt-get install texlive
+%sudo apt-get install texlive-lang-french
+%sudo apt-get install texlive-latex-extra
+% Compile Time : pdflatex Rapport.tex
+% Pensez à virer les .log, .aux, .out ET .pdf avant de push !
