@@ -1,6 +1,0 @@
-Explication du role des différents script:
-
-
-- script.sh   : c'est le script qui sera exécuté sur chaque VM, ce script se situe au niveau du frontend.
-- ipfloat.sh : c'est le script qui renvoie la liste des adresses ip flotantes des VM, ce script se situe au niveau du controlleur car la commande nova floating-ip-list ne peut s'exécuter qu'au niveau du controlleur.
-- Connection.sh : c'est le script principal, il récupère les adresses ip en appelant le script ipfloat sur le controlleur, il met les adresses dans le fichier ipfloat.txt. Il exécute ensuite script.sh sur l'ensemble des VM. Se situe au niveau du frontend.
