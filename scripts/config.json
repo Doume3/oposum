@@ -1,0 +1,43 @@
+{
+	"vms": [
+		{
+			"nom": "nomvm1",
+			"type": "xs",
+			"apps": [
+				{
+					"personnel": "true",
+					"path": "~/mesApps/monApp/appS.sh",
+					"nom": "myApp",
+					"type": "serveur",
+					"port": "10000"
+				},
+				{
+					"personnel": "false",
+					"nom": "FTP",
+					"type": "serveur",
+					"port": "10001"
+				}
+			]
+		},
+		{
+			"nom": "nomvm2",
+			"type": "medium",
+			"apps": [
+				{
+					"personnel": "false",
+					"nom": "FTP",
+					"type": "client",
+					"dependDe": "nomvm1",
+					"port": "10001"
+				},
+				{
+					"personnel": "true",
+					"path": "~/mesApps/monApp/appC.sh",
+					"nom": "myApp",
+					"type": "client",
+					"port": "10000"
+				}
+			]
+		}
+	]
+}
