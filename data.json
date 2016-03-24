@@ -1,0 +1,38 @@
+{
+    "scenarios": [
+	{"scenario1": {
+	    "nom": "Serveur FTP",
+	    "roles": [
+		{"role1": {
+		    "nom": "Serveur",
+		    "chemin": "Serveur/FTP/serveur",
+		    "dependance": "",
+		    "attributs": "/Serveur/FTP/serveur/fichierAttr.txt",
+		    "parametres": []
+		}},
+		{"role2": {
+		    "nom": "client",
+		    "chemin": "Serveur/FTP/client",
+		    "dependance": "role1",
+		    "attributs": "/Serveur/FTP/client/fichierAttr.txt",
+		    "parametres": ["ip"]
+		}}
+	    ],
+	    "VM": [
+		{"VM1": {
+		    "nom": "totoServeur",
+		    "roles": ["role1"],
+		    "taille": "",
+		    "dependances": []
+		}},
+		{"VM2": {
+		    "nom": "totoClient",
+		    "roles": ["role2"],
+		    "taille": "",
+		    "dependances": ["VM1"]
+		}}
+	    ]
+	}
+	}
+    ]
+}
