@@ -20,7 +20,7 @@ esac
 ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
 echo "*Adresse du controller* > $ADR";
 
-NOMSVMS=`ssh root@$ADR 'nova list' | cut -d '|' -f 3 | grep -o -E '([a-zA-Z0-9]+)'`;
+NOMSVMS=`ssh root@$ADR 'source openstack-openrc.sh && nova list' | cut -d '|' -f 3 | grep -o -E '([a-zA-Z0-9]+)'`;
 
 # Vérifie que les noms des VMs soient différents
 for NOMVM in $NOMSVMS; do
