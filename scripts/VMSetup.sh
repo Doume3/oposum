@@ -24,7 +24,7 @@ NOMSVMS=`ssh root@$ADR 'source openstack-openrc.sh && nova list' | cut -d '|' -f
 
 # Vérifie que les noms des VMs soient différents
 for NOMVM in $NOMSVMS; do
-	if [ $NOMVM = $2 ] then
+	if [ $NOMVM = $2 ]; then
 		echo "Le nom de la VM $2 existe déjà, veuillez en choisir un autre"
  		exit $ERR_ARGS
 	fi
