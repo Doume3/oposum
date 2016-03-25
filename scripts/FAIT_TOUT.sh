@@ -9,7 +9,7 @@ then
 fi
 
 case $1 in
-    chat|FTP) 
+    chat|FTP)
 	echo "Application : $1";;
     *)
 	echo "Usage chat | FTP : $1";
@@ -40,11 +40,11 @@ echo '#+------------------------+';
 echo '#|       VM_LAUNCHER      |';
 echo '#+------------------------+';
 #On fetch l'adresse du controller
-ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
-echo "*Adresse du controller* > $ADR";
-KEYPAIR=`ssh root@$ADR "source openstack-openrc.sh && nova keypair-show demo | grep -o -e 'demo'"`;
+ADRESSE=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
+echo "*Adresse du controller* > $ADRESSE";
+KEYPAIR=`ssh root@$ADRESSE 'source openstack-openrc.sh && nova keypair-show demo' | grep -o -E 'demo'`;
 if [ -z $KEYPAIR ]; then
-cat ~/.ssh/id_rsa.pub | ssh root@$ADR "source openstack-openrc.sh && nova keypair-add --pub_key - demo";
+	cat ~/.ssh/id_rsa.pub | ssh root@$ADRESSE 'source openstack-openrc.sh && nova keypair-add --pub_key - demo';
 fi
 
 for i in `seq 1 $3`;
@@ -64,12 +64,14 @@ do
 		nova secgroup-add-rule default tcp 10000 10100 0.0.0.0/0;
 	fi
 	 " host=controller;
-	
 done
 
+#On fetch l'adresse du controller
+#ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
+echo "*Adresse du controller* > $ADRESSE";
 
 #On s'y connecte pour fetch la liste des IP_VM
-IPs=`ssh root@$ADR 'source openstack-openrc.sh && nova floating-ip-list' | cut -d '|' -f 3 | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'`;
+IPs=`ssh root@$ADRESSE 'source openstack-openrc.sh && nova floating-ip-list' | cut -d '|' -f 3 | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'`;
 echo "*IP VMs* > $IPs";
 
 for IP in $IPs; do
