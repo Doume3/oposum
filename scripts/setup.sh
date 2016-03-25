@@ -1,6 +1,11 @@
 #!/bin/bash
 
-# PRE-REQUIS : scp un dossier d'applications (Serveur/) sur votre frontend.
+# PRE-REQUIS : 
+#1) scp un dossier d'applications (Serveur/) sur votre frontend depuis votre machine
+    #scp -r -p DOSSIER_APPLICATIONS/ $login@access.grid5000.fr:$site
+#2) Connection au frontend, puis rake run
+#3) Remplir un template JSON décrivant les applications/VMs à deployer
+#4) grosScript.sh se charge de le faire et de tout configurer
 
 ERR_ARGS=85
 
@@ -41,6 +46,10 @@ echo '#+------------------------+';
 echo '#|       VM_LAUNCHER      |';
 echo '#+------------------------+';
 
+VAR=rake roles:show | grep "controller" | grep -o -E "[^: ]*\.grid5000\.fr";
+cat ~/.ssh/id_rsa.pub | ssh root@$VAR "source openstack-openrc.sh && nova keypair-add --pub_key - demo";
+
+
 for i in `seq 1 $3`;
 do
 	rake cmd cmd="echo '#### START_RAKE ####';
@@ -77,7 +86,7 @@ echo "#### IP VMs > $IPs ####";
 for IP in $IPs; do
 echo "#### VM : $IP ####";
 
-scp -p -r ../../Serveur/ debian@$IP: ;
+scp -p -r ../Serveur/ debian@$IP: ;
 ssh debian@$IP "sudo apt-get -y update; sudo apt-get -y install gcc make; cd Serveur/$1/; make;";
 
 echo '#### Apps installees ####';
