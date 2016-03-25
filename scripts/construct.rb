@@ -11,8 +11,8 @@ data["vms"].each do |vm|
 	puts "\n"
 	puts "##### Creation de la VM (#{vm["nom"]}|#{vm["type"]})"
 	puts "-----------------------------------------------------------------"
-	puts `echo './VMLaunch "#{vm["type"]}" "#{vm["nom"]}"'`
-	#sleep(10)
+	puts `./VMSetup.sh "#{vm["type"]}" "#{vm["nom"]}"`
+	sleep(10)
 	vm.each do |proprietes, value|
 		if proprietes == "apps"
 			value.each do |app|
@@ -29,7 +29,7 @@ data["vms"].each do |vm|
 				end
 				puts "# Installation de l'application (#{app["nom"]}|#{app["type"]}|#{app["port"]})"
 				puts "--------------------------------"
-				puts `echo './appLaunch "#{app["nom"]}" "#{app["type"]}" "#{app["port"]}" "#{path}"'`
+				puts `echo './appSetup.sh "#{vm["nom"]}" "#{app["nom"]}" "#{app["type"]}" "#{app["port"]}" "#{path}"'`
 			end
 		end
 	end
