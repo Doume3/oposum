@@ -16,6 +16,20 @@ case $1 in
 	exit $ERR_ARGS;;
 esac
 
+#On fetch l'adresse du controller
+ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
+echo "*Adresse du controller* > $ADR";
+
+NOMSVMS=`ssh root@$ADR 'source openstack-openrc.sh && nova list' | cut -d '|' -f 3 | grep -o -E '([a-zA-Z0-9]+)'`;
+
+# Vérifie que les noms des VMs soient différents
+for NOMVM in $NOMSVMS; do
+	if [ $NOMVM = $2 ] then
+		echo "Le nom de la VM $2 existe déjà, veuillez en choisir un autre"
+ 		exit $ERR_ARGS
+	fi
+done
+
 echo '#+------------------------+';
 echo '#|        VM_SETUP        |';
 echo '#+------------------------+';
@@ -24,7 +38,7 @@ rake cmd cmd="echo '#### START_RAKE ####';
 source openstack-openrc.sh;
 
 echo '#### CREATION VM ####';
-nova boot --flavor m1.$1 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron net-show -c id -f value private) --key_name demo $2;
+nova boot --flavor m1.$1 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron net-show -c id -f value private) --key_name demo nvm_$2;
 
 echo '#### AJOUTE IP PUBLIQUE ####';
 IP_PUB=\`nova floating-ip-create public | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'\`;
@@ -42,11 +56,6 @@ then
 fi
  " host=controller;
 
-
-#On fetch l'adresse du controller
-ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
-echo "*Adresse du controller* > $ADR";
-
 #On s'y connecte pour fetch la liste des IP_VM
 IP=`ssh root@$ADR 'source openstack-openrc.sh && nova list --name $2' | cut -d '|' -f 7 | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
 echo "#### IP VM > $IP ####";
@@ -55,4 +64,4 @@ echo "#### VM : $IP ####";
 
 ssh debian@$IP "sudo apt-get -y update;";
 
-echo '#### VM installe ####';
+echo '#### VM $2 installe ####';
