@@ -14,8 +14,8 @@ site=$2;
 #+------------------------+
 #|		APPLICATIONS        |
 #+------------------------+
-$laptop>
-scp -r -p Serveur/ $login@access.grid5000.fr:$site
+#$laptop>
+scp -r -p DOSSIER_APPLICATIONS/ $login@access.grid5000.fr:$site
 
 
 #+------------------------+
@@ -32,8 +32,8 @@ scp -r -p Serveur/ $login@access.grid5000.fr:$site
 #$frontend>
 
 #git clone https://github.com/grid5000/xp5k-openstack.git
-cd xp5k-openstack;
-source setup_env.sh;
+#cd xp5k-openstack;
+#source setup_env.sh;
 #gem install bundler
 #bundle install
 
@@ -53,7 +53,7 @@ gateway         \"#{ENV['USER']}@frontend.#{self[:site]}.grid5000.fr\"" >> xp.co
 #+------------------------+
 #|		Start deployment    |
 #+------------------------+
-screen rake run
+#screen rake run
 
 
 #+------------------------+

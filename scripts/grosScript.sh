@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# PRE-REQUIS : scp un dossier d'applications (Serveur/) sur votre frontend.
+
 ERR_ARGS=85
 
 if [ $# -ne 3 ]  # Correct number of arguments passed to script?
