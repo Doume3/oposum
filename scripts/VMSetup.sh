@@ -24,7 +24,7 @@ NOMSVMS=`ssh root@$ADR 'source openstack-openrc.sh && nova list' | cut -d '|' -f
 
 # Vérifie que les noms des VMs soient différents
 for NOMVM in $NOMSVMS; do
-	if [ $NOMVM = $2 ] then
+	if [ "$NOMVM" = "nvm_$2" ]; then
 		echo "Le nom de la VM $2 existe déjà, veuillez en choisir un autre"
  		exit $ERR_ARGS
 	fi
@@ -43,7 +43,7 @@ nova boot --flavor m1.$1 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron 
 echo '#### AJOUTE IP PUBLIQUE ####';
 IP_PUB=\`nova floating-ip-create public | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'\`;
 \`sleep 2\`;
-nova add-floating-ip $2 \$IP_PUB;
+nova add-floating-ip 'nvm_$2' \$IP_PUB;
 echo \$IP_PUB;
 
 echo '#### MODIFIE DROITS ####';
@@ -57,7 +57,7 @@ fi
  " host=controller;
 
 #On s'y connecte pour fetch la liste des IP_VM
-IP=`ssh root@$ADR 'source openstack-openrc.sh && nova list --name $2' | cut -d '|' -f 7 | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
+IP=`ssh root@$ADR 'source openstack-openrc.sh && nova list --name "nvm_$2"' | cut -d '|' -f 7 | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
 echo "#### IP VM > $IP ####";
 
 echo "#### VM : $IP ####";
