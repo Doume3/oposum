@@ -11,24 +11,26 @@ data["vms"].each do |vm|
 	puts "\n"
 	puts "##### Creation de la VM (#{vm["nom"]}|#{vm["type"]})"
 	puts "-----------------------------------------------------------------"
-	puts `./VMSetup.sh "#{vm["type"]}" "#{vm["nom"]}"`
-	vm.each do |proprietes, value|
-		if proprietes == "apps"
-			value.each do |app|
-				puts "\n"
-				path = ""
-				if app["personnel"] == "true"
-					path = app["path"]
-				else
-					if applications.include? app["nom"]
-						path = "~/app/#{app["nom"]}/#{app["type"]}.c"
+	res = system("./VMSetup.sh \"#{vm["type"]}\" \"#{vm["nom"]}\"")
+	if res != false
+		vm.each do |proprietes, value|
+			if proprietes == "apps"
+				value.each do |app|
+					puts "\n"
+					path = ""
+					if app["personnel"] == "true"
+						path = app["path"]
 					else
-						abort("L'application #{app["nom"]} est inconnu")
+						if applications.include? app["nom"]
+							path = "~/app/#{app["nom"]}/#{app["type"]}.c"
+						else
+							abort("L'application #{app["nom"]} est inconnu")
+						end
 					end
+					puts "# Installation de l'application (#{app["nom"]}|#{app["type"]}|#{app["port"]})"
+					puts "--------------------------------"
+					puts `echo './appSetup.sh "#{vm["nom"]}" "#{app["nom"]}" "#{app["type"]}" "#{app["port"]}" "#{path}"'`
 				end
-				puts "# Installation de l'application (#{app["nom"]}|#{app["type"]}|#{app["port"]})"
-				puts "--------------------------------"
-				puts `echo './appSetup.sh "#{vm["nom"]}" "#{app["nom"]}" "#{app["type"]}" "#{app["port"]}" "#{path}"'`
 			end
 		end
 	end
