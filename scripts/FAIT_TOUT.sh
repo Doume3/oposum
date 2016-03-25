@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# PRE-REQUIS : 
-#1) scp un dossier d'applications (Serveur/) sur votre frontend depuis votre machine
-    #scp -r -p DOSSIER_APPLICATIONS/ $login@access.grid5000.fr:$site
-#2) Connection au frontend, puis rake run
-#3) Remplir un template JSON décrivant les applications/VMs à deployer
-#4) grosScript.sh se charge de le faire et de tout configurer
-
 ERR_ARGS=85
 
 if [ $# -ne 3 ]  # Correct number of arguments passed to script?
@@ -38,60 +31,54 @@ then
 fi
 
 if ! [ -d ../Serveur/ ]; then
-	#/!\ les applications sont presentes dans frontend/xp5k-openstack/Serveur
-	echo 'Nothing to deploy.. There is no Serveur/ in xp5k-openstack directory !';
-	exit $ERR_ARGS;
+ 	#/!\ les applications sont presentes dans frontend/xp5k-openstack/Serveur
+ 	echo 'Nothing to deploy.. There is no Serveur/ in xp5k-openstack directory !';
+ 	exit $ERR_ARGS;
 fi
 
 echo '#+------------------------+';
 echo '#|       VM_LAUNCHER      |';
 echo '#+------------------------+';
-
-ADR=`rake roles:show | grep "controller" | grep -o -E "[^: ]*\.grid5000\.fr"`;
-
+#On fetch l'adresse du controller
+ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
+echo "*Adresse du controller* > $ADR";
 KEYPAIR=`ssh root@$ADR "source openstack-openrc.sh && nova keypair-show demo | grep -o -e 'demo'"`;
-
-if [ -z $KEYPAIR ]
-then
-	cat ~/.ssh/id_rsa.pub | ssh root@$ADR "source openstack-openrc.sh && nova keypair-add --pub_key - demo";
+if [ -z $KEYPAIR ]; then
+cat ~/.ssh/id_rsa.pub | ssh root@$ADR "source openstack-openrc.sh && nova keypair-add --pub_key - demo";
 fi
 
 for i in `seq 1 $3`;
 do
 	rake cmd cmd="echo '#### START_RAKE ####';
 	source openstack-openrc.sh;
-
 	echo '#### CREATION VM1 ####';
-	nova boot --flavor m1.$2 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron net-show -c id -f value private) --key_name demo $1$i;
-
+	nova boot --flavor m1.$2 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron net-show -c id -f value private) --key_name demo default$i;
 	echo '#### AJOUTE IP PUBLIQUE ####';
 	IP_PUB=\`nova floating-ip-create public | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'\`;
-	\`sleep 2\`;
-	nova add-floating-ip $1$i \$IP_PUB;
+	nova add-floating-ip default$i \$IP_PUB;
 	echo \$IP_PUB;
-
 	echo '#### MODIFIE DROITS ####';
 	VAR_RULE=\`(nova secgroup-list-rules default | grep -o 10000)\`;
-
 	if [ -z \$VAR_RULE ]
 	then
 		nova secgroup-add-rule default tcp 10000 10100 0.0.0.0/0;
 	fi
 	 " host=controller;
-
+	
 done
 
-#On fetch l'adresse du controller
-echo "*Adresse du controller* > $ADR";
+
 #On s'y connecte pour fetch la liste des IP_VM
 IPs=`ssh root@$ADR 'source openstack-openrc.sh && nova floating-ip-list' | cut -d '|' -f 3 | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'`;
-echo "#### IP VMs > $IPs ####";
+echo "*IP VMs* > $IPs";
 
 for IP in $IPs; do
-	echo '#### VM : $IP ####';
-	scp -p -r ../Serveur debian@$IP: ;
-	ssh debian@$IP "sudo apt-get -y update; sudo apt-get -y install gcc make; cd Serveur/$1/; make;";
+echo "VM : $IP";
 
-	echo '#### Apps installees ####';
+scp -p -r ../../Serveur/ debian@$IP: ; #/!\ les applications sont présentes sur le frontend
+ssh debian@$IP "sudo apt-get -y update; sudo apt-get -y install gcc make; cd Serveur/$1/; make;"; # Serveur/chat ou Serveur/FTP
+
+echo 'Apps installees';
+
 done
 

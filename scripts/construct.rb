@@ -12,7 +12,6 @@ data["vms"].each do |vm|
 	puts "##### Creation de la VM (#{vm["nom"]}|#{vm["type"]})"
 	puts "-----------------------------------------------------------------"
 	puts `./VMSetup.sh "#{vm["type"]}" "#{vm["nom"]}"`
-	sleep(10)
 	vm.each do |proprietes, value|
 		if proprietes == "apps"
 			value.each do |app|
