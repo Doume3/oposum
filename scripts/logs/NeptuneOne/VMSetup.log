@@ -1,0 +1,101 @@
+# Controleur: genepi-30.grenoble.grid5000.fr
+Connected to genepi-30.grenoble.grid5000.fr...
+[command][genepi-30.grenoble.grid5000.fr] 
+echo '# Execution du source openstack';
+source openstack-openrc.sh;
+
+VAR_RULE=`nova secgroup-list-rules default | grep -o 10000`;
+if [ -z "$VAR_RULE" ]; then
+	echo '# Ajout des règles du parfeu'
+        nova secgroup-add-rule default tcp 10000 10100 0.0.0.0/0;
+        nova secgroup-add-rule default udp 10000 10100 0.0.0.0/0;
+fi
+
+echo '# Création de la VM';
+nova boot --flavor m1.xs --image 'Debian Jessie 64-bit' --nic net-id=$(neutron net-show -c id -f value private) --key_name demo nvm_NeptuneOne;
+
+# On attend que la VM soit disponible
+while [ -z "`nova list --name nvm_NeptuneOne | cut -d '|' -f 4 | grep -o -E '(ACTIVE)'`" ]; do
+	sleep 2;
+done
+
+echo "# Création de l'IP publique";
+IP_PUB=`nova floating-ip-create public | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'`;
+echo "# Ajout de l'IP publique ($IP_PUB) à la VM";
+nova add-floating-ip nvm_NeptuneOne $IP_PUB;
+[stdout][genepi-30.grenoble.grid5000.fr] # Execution du source openstack
+[stdout][genepi-30.grenoble.grid5000.fr] # Création de la VM
+[stdout][genepi-30.grenoble.grid5000.fr] +--------------------------------------+-------------------------------------------------------------+
+| Property                             | Value                                                       |
++--------------------------------------+-------------------------------------------------------------+
+| OS-DCF:diskConfig                    | MANUAL                                                      |
+| OS-EXT-AZ:availability_zone          |                                                             |
+| OS-EXT-SRV-ATTR:host                 | -                                                           |
+| OS-EXT-SRV-ATTR:hypervisor_hostname  | -                                                           |
+| OS-EXT-SRV-ATTR:instance_name        | instance-00000017                                           |
+| OS-EXT-STS:power_state               | 0                                                           |
+| OS-EXT-STS:task_state                | scheduling                                                  |
+| OS-EXT-STS:vm_state                  | building                                                    |
+| OS-SRV-USG:launched_at               | -                                                           |
+| OS-SRV-USG:terminated_at             | -                                                           |
+| accessIPv4                           |                                                             |
+| accessIPv6                           |                                                             |
+| adminPass                            | VW3eWJ2jUNJH                                                |
+| config_drive                         |                                                             |
+| created                              | 2016-03-26T14:44:48Z                                        |
+| flavor                               | m1.xs (6db24f4b-f41f-4fa4-a21e-74a69997222b)                |
+| hostId                               |                                                             |
+| id                                   | 83255461-4ce6-4742-98a0-59da03ebe4df                        |
+| image                                | Debian Jessie 64-bit (87952ab5-110f-4dfe-9081-0da2fff40a90) |
+| key_name                             | demo                                                        |
+| metadata                             | {}                                                          |
+| name                                 | nvm_NeptuneOne                                              |
+| os-extended-volumes:volumes_attached | []                                                          |
+| progress                             | 0                                                           |
+| security_groups                      | default                                                     |
+| status                               | BUILD                                                       |
+| tenant_id                            | 7bcede5314a04c5fb48f35f07fcf89b9                            |
+| updated                              | 2016-03-26T14:44:49Z                                        |
+| user_id                              | da0a2c3440894b638374f6c5868209df                            |
++--------------------------------------+-------------------------------------------------------------+
+[stdout][genepi-30.grenoble.grid5000.fr] # Création de l'IP publique
+[stdout][genepi-30.grenoble.grid5000.fr] # Ajout de l'IP publique (10.132.0.33) à la VM
+---- genepi-30.grenoble.grid5000.fr ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Execution du source openstack
+# Création de la VM
++--------------------------------------+-------------------------------------------------------------+
+| Property                             | Value                                                       |
++--------------------------------------+-------------------------------------------------------------+
+| OS-DCF:diskConfig                    | MANUAL                                                      |
+| OS-EXT-AZ:availability_zone          |                                                             |
+| OS-EXT-SRV-ATTR:host                 | -                                                           |
+| OS-EXT-SRV-ATTR:hypervisor_hostname  | -                                                           |
+| OS-EXT-SRV-ATTR:instance_name        | instance-00000017                                           |
+| OS-EXT-STS:power_state               | 0                                                           |
+| OS-EXT-STS:task_state                | scheduling                                                  |
+| OS-EXT-STS:vm_state                  | building                                                    |
+| OS-SRV-USG:launched_at               | -                                                           |
+| OS-SRV-USG:terminated_at             | -                                                           |
+| accessIPv4                           |                                                             |
+| accessIPv6                           |                                                             |
+| adminPass                            | VW3eWJ2jUNJH                                                |
+| config_drive                         |                                                             |
+| created                              | 2016-03-26T14:44:48Z                                        |
+| flavor                               | m1.xs (6db24f4b-f41f-4fa4-a21e-74a69997222b)                |
+| hostId                               |                                                             |
+| id                                   | 83255461-4ce6-4742-98a0-59da03ebe4df                        |
+| image                                | Debian Jessie 64-bit (87952ab5-110f-4dfe-9081-0da2fff40a90) |
+| key_name                             | demo                                                        |
+| metadata                             | {}                                                          |
+| name                                 | nvm_NeptuneOne                                              |
+| os-extended-volumes:volumes_attached | []                                                          |
+| progress                             | 0                                                           |
+| security_groups                      | default                                                     |
+| status                               | BUILD                                                       |
+| tenant_id                            | 7bcede5314a04c5fb48f35f07fcf89b9                            |
+| updated                              | 2016-03-26T14:44:49Z                                        |
+| user_id                              | da0a2c3440894b638374f6c5868209df                            |
++--------------------------------------+-------------------------------------------------------------+
+# Création de l'IP publique
+# Ajout de l'IP publique (10.132.0.33) à la VM
+Closing ssh connections...

@@ -1,7 +1,7 @@
 {
 	"vms": [
 		{
-			"nom": "nomvm1",
+			"nom": "NeptuneOne",
 			"type": "xs",
 			"apps": [
 				{
@@ -20,7 +20,7 @@
 			]
 		},
 		{
-			"nom": "nomvm2",
+			"nom": "NeptuneTwo",
 			"type": "medium",
 			"apps": [
 				{
