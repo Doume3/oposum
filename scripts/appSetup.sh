@@ -22,15 +22,18 @@ case $3 in
                 fi
 	fi;;
     *)
-	echo "type_APP: client | serveur | normal"
+	echo "type_APP: client | serveur | normal : $3"
 	exit $ERR_ARGS;;
 esac
 
 echo "- Vérification du port de l'application";
 if [ $4 -lt 10000 ] && [ $4 -gt 10100 ]; then
-	echo "port_APP: 10000 à 10100"
+	echo "port_APP: 10000 à 10100 : $4"
 	exit $ERR_ARGS
 fi
+
+mkdir -p logs/$1/
+LOG="logs/$1/appSetup.log"
 
 # On récupère l'adresse du controller
 ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
@@ -38,26 +41,24 @@ ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
 # On se connecte au controleur pour récupérer l'IP de la VM
 IP=`ssh root@$ADR "source openstack-openrc.sh && nova list --name $1" | cut -d '|' -f 7 | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
 
-case $3 in
-	client)
-		# On se connecte au controleur pour récupérer l'IP de la VM serveur
-		IPServeur=`ssh root@$ADR "source openstack-openrc.sh && nova list --name $6" | cut -d '|' -f 7 | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
-		echo "IP VM serveur : $IPServeur"
-		if [ -z "$IPServeur" ]; then
-		        echo "L'IP de la VM serveur est introuvable"
-		        exit $ERR_ARGS
-		fi
-		$CAST="$3 $IPServeur $4";;
-	serveur)
-		$CAST="$3 $4";;
-	normal)
-		$CAST="$3";;
-esac
+if [ "$3" = "client" ]; then
+	# On se connecte au controleur pour récupérer l'IP de la VM serveur
+	IPServeur=`ssh root@$ADR "source openstack-openrc.sh && nova list --name $6" | cut -d '|' -f 7 | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
+	echo "IP VM serveur : $IPServeur"
+	if [ -z "$IPServeur" ]; then
+	        echo "L'IP de la VM serveur est introuvable"
+	        exit $ERR_ARGS
+	fi
+fi
 
-echo "- Copie de l'application sur la VM"
-scp -p -r $5 debian@$IP:
+echo "- Copie de l'application ($2) sur la VM"
+scp -q -p -r $5 debian@$IP: >> $LOG
 
 echo "- Démarrage de l'application"
-ssh debian@$IP "cd $2; make $3; $CAST;"
+if [ "$3" = "client" ]; then
+	ssh -q debian@$IP "cd $2; make $3; ls -l; ./$3 $IPServeur $4 & exit;" >> $LOG
+else
+ 	ssh -q debian@$IP "cd $2; make $3; ls -l; ./$3 $4 & exit;" >> $LOG
+fi
 
 exit 0

@@ -5,14 +5,14 @@
 			"type": "xs",
 			"apps": [
 				{
-					"publique": false,
-					"nom": "echoTCP",
+					"publique": true,
+					"nom": "chat",
 					"type": "serveur",
 					"port": 10000
 				},
 				{
-					"publique": true,
-					"nom": "FTP",
+					"publique": false,
+					"nom": "echoUDP",
 					"type": "serveur",
 					"port": 10001
 				}
@@ -24,17 +24,17 @@
 			"apps": [
 				{
 					"publique": true,
-					"nom": "FTP",
-					"type": "client",
-					"IPServeur": "NeptuneServeur",
-					"portServeur": 10001
-				},
-				{
-					"publique": false,
-					"nom": "echoTCFAIL",
+					"nom": "chat",
 					"type": "client",
 					"IPServeur": "NeptuneServeur",
 					"portServeur": 10000
+				},
+				{
+					"publique": false,
+					"nom": "echoUDP-FAIL",
+					"type": "client",
+					"IPServeur": "NeptuneServeur",
+					"portServeur": 10001
 				}
 			]
 		}

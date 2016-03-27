@@ -84,7 +84,7 @@ while ! ssh -q debian@$IP 'exit'; do
 done
 
 echo "- Mise à jour de la VM...";
-ssh -q debian@$IP "echo '# UPDATE'; sudo apt-get -y update; echo '# INSTALL'; sudo apt-get -y install g++ gcc make;" >> $LOG
+ssh -q debian@$IP "echo '# UPDATE'; sudo apt-get -y update; echo '# UPGRADE'; sudo apt-get -y upgrade; echo '# INSTALL'; sudo apt-get -y install g++ gcc make;" >> $LOG
 echo "- Mise à jour réussie";
 
 exit 0

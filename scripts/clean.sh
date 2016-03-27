@@ -6,7 +6,7 @@ echo "|  Destruction VM  |";
 echo "+------------------+";
 
 echo "Suppression des logs";
-rm -r logs/*
+rm -rf logs/*
 
 rake cmd cmd="source openstack-openrc.sh;
 
