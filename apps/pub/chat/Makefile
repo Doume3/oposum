@@ -1,16 +1,13 @@
-all: serveurChat clientChat clean
+all: serveur client
 
-serveurChat: serveurChat.o
-	gcc -o serveurChat serveurChat.o
+serveur: serveur.o
+	gcc -o serveur serveur.o
 
-serveurChat.o: serveurChat.c
-	gcc -o serveurChat.o -c serveurChat.c
+serveur.o: serveur.c
+	gcc -o serveur.o -c serveur.c
 
-clientChat: clientChat.o
-	gcc -o clientChat clientChat.o
+client: client.o
+	gcc -o client client.o
 
-clientChat.o: clientChat.c
-	gcc -o clientChat.o -c clientChat.c
-
-clean:
-	rm *.o *~
+client.o: client.c
+	gcc -o client.o -c client.c

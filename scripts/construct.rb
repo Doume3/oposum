@@ -21,12 +21,16 @@ data["vms"].each do |vm|
 					if app["publique"] == true
 						rep = "pub" 
 					else
-						rep = "priv"
+						rep = "pers"
 					end
-					if File.directory?("../apps/#{rep}/#{app["nom"]}/") == true
+					if File.directory?("../apps/#{rep}/#{app["nom"]}") == true
 						puts "### Installation de l'application '#{app["nom"]}'"
-                                	        resApp = true #system("./appSetup.sh \"#{vm["nom"]}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"#{app["port"]}\" \"#{path}\"")
-                        	                if resApp != false
+						if app["type"] == "serveur"
+	                                	        resApp = system("./appSetup.sh \"#{vm["nom"]}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"#{app["port"]}\" \"../apps/#{rep}/#{app["nom"]}\"")
+        					else
+							resApp = system("./appSetup.sh \"#{vm["nom"]}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"#{app["portServeur"]}\" \"../apps/#{rep}/#{app["nom"]}\" \"#{app["IPServeur"]}\"")
+						end
+	                	                if resApp != false
                 	                                puts "### Application installée avec succès (#{app["nom"]})"
            	                        	else
                                                 	puts "### Une erreur est survenue, l'application (#{app["nom"]}) n'a pas été installée"
