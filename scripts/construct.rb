@@ -5,32 +5,40 @@ file = File.read('config.json')
 data = JSON.parse(file)
 
 
-applications = ["chat", "FTP"]
+applicationsDispo = ["chat", "FTP"]
 
 data["vms"].each do |vm|
 	puts "\n"
 	puts "### Création de la machine virtuelle '#{vm["nom"]}'"
-	res = system("./VMSetup.sh \"#{vm["type"]}\" \"#{vm["nom"]}\"")
-	if res != false
+	resVM = system("./VMSetup.sh \"#{vm["type"]}\" \"#{vm["nom"]}\"")
+	if resVM != false
+		puts "### Machine virtuelle créée avec succès (#{vm["nom"]})"
 		vm.each do |proprietes, value|
 			if proprietes == "apps"
 				value.each do |app|
 					puts "\n"
 					path = ""
-					if app["personnel"] == "true"
-						path = app["path"]
+					if app["publique"] == true
+						rep = "pub" 
 					else
-						if applications.include? app["nom"]
-							path = "~/app/#{app["nom"]}/#{app["type"]}.c"
-						else
-							abort("L'application #{app["nom"]} est inconnu")
-						end
+						rep = "priv"
 					end
-					puts "### Installation de l'application '#{app["nom"]}'"
-					puts `echo './appSetup.sh "#{vm["nom"]}" "#{app["nom"]}" "#{app["type"]}" "#{app["port"]}" "#{path}"'`
+					if File.directory?("../apps/#{rep}/#{app["nom"]}/") == true
+						puts "### Installation de l'application '#{app["nom"]}'"
+                                	        resApp = true #system("./appSetup.sh \"#{vm["nom"]}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"#{app["port"]}\" \"#{path}\"")
+                        	                if resApp != false
+                	                                puts "### Application installée avec succès (#{app["nom"]})"
+           	                        	else
+                                                	puts "### Une erreur est survenue, l'application (#{app["nom"]}) n'a pas été installée"
+                                       		end
+					else
+						puts "### Application introuvable"
+					end
 				end
 			end
 		end
+	else
+		puts "### Une erreur est survenue, la machine virtuelle (#{vm["nom"]}) n'a pas été créée"
 	end
 	puts "\n\n"
 end
