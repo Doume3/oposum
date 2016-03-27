@@ -6,7 +6,7 @@
 			"apps": [
 				{
 					"publique": false,
-					"nom": "perroquet",
+					"nom": "echoTCP",
 					"type": "serveur",
 					"port": 10000
 				},
@@ -31,7 +31,7 @@
 				},
 				{
 					"publique": false,
-					"nom": "perroquet",
+					"nom": "echoTCFAIL",
 					"type": "client",
 					"IPServeur": "NeptuneServeur",
 					"portServeur": 10000
