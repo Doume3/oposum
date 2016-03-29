@@ -56,9 +56,9 @@ scp -q -p -r $5 debian@$IP: >> $LOG
 
 echo "- Démarrage de l'application"
 if [ "$3" = "client" ]; then
-	ssh -q debian@$IP "cd $2; make $3; ls -l; ./$3 $IPServeur $4 & exit;" >> $LOG
+	ssh -q debian@$IP "cd $2; make $3; ls -l; ./$3 $IPServeur $4" >> $LOG &
 else
- 	ssh -q debian@$IP "cd $2; make $3; ls -l; ./$3 $4 & exit;" >> $LOG
+ 	ssh -q debian@$IP "cd $2; make $3; ls -l; ./$3 $4" >> $LOG &
 fi
 
 exit 0

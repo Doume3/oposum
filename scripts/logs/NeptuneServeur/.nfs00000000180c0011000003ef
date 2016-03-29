@@ -1,0 +1,20 @@
+gcc -o serveur.o -c serveur.c
+gcc -o serveur serveur.o
+total 56
+-rw-r--r-- 1 debian debian  2703 Mar 25 14:53 client.c
+-rw-r--r-- 1 debian debian   223 Mar 27 14:26 Makefile
+-rw-r--r-- 1 debian debian  5264 Mar 25 14:53 reseaux.c
+-rw-r--r-- 1 debian debian  1947 Mar 25 14:53 reseaux.h
+-rwxr-xr-x 1 debian debian 15056 Mar 29 12:49 serveur
+-rw-r--r-- 1 debian debian  5817 Mar 25 14:53 serveur.c
+-rw-r--r-- 1 debian debian 10224 Mar 29 12:49 serveur.o
+gcc -o serveur.o -c serveur.c
+gcc -o serveur serveur.o
+total 48
+-rw-r--r-- 1 debian debian  1625 Mar 27 14:36 client.c
+-rw-r--r-- 1 debian debian   221 Mar 27 14:36 Makefile
+-rw-r--r-- 1 debian debian  5264 Mar 27 14:36 reseaux.c
+-rw-r--r-- 1 debian debian  1947 Mar 27 14:36 reseaux.h
+-rwxr-xr-x 1 debian debian 12512 Mar 29 12:50 serveur
+-rw-r--r-- 1 debian debian  1387 Mar 27 14:36 serveur.c
+-rw-r--r-- 1 debian debian  6736 Mar 29 12:50 serveur.o
