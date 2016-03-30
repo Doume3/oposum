@@ -84,7 +84,7 @@ while ! ssh -q debian@$IP 'exit'; do #voir si on peut ping ??
 done
 
 echo "- Mise à jour de la VM...";
-ssh -q debian@$IP "echo '# UPDATE'; echo '# INSTALL'; sudo apt-get -y install gcc make;" >> $LOG #sudo apt-get -y update;
+ssh -q debian@$IP "echo '# UPDATE'; sudo apt-get -y update; echo '# UPDATE'; echo '# INSTALL'; sudo apt-get -y install gcc make;" >> $LOG;
 echo "- Mise à jour réussie";
 
 exit 0
