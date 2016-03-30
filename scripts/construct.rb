@@ -1,14 +1,14 @@
 require 'rubygems'
 require 'json'
 
-file = File.read('config.json')
+file = File.read('config.json') # close le file ?
 data = JSON.parse(file)
 
 
 applicationsDispo = ["chat", "FTP"]
 
 data["vms"].each do |vm|
-	puts "\n"
+	print "\n"
 	puts "### Création de la machine virtuelle '#{vm["nom"]}'"
 	resVM = system("./VMSetup.sh \"#{vm["type"]}\" \"#{vm["nom"]}\"")
 	if resVM != false
@@ -16,8 +16,7 @@ data["vms"].each do |vm|
 		vm.each do |proprietes, value|
 			if proprietes == "apps"
 				value.each do |app|
-					puts "\n"
-					path = ""
+					print "\n"
 					if app["publique"] == true
 						rep = "pub" 
 					else
@@ -26,15 +25,15 @@ data["vms"].each do |vm|
 					if File.directory?("../apps/#{rep}/#{app["nom"]}") == true
 						puts "### Installation de l'application '#{app["nom"]}'"
 						if app["type"] == "serveur"
-	                                	        resApp = system("./appSetup.sh \"#{vm["nom"]}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"#{app["port"]}\" \"../apps/#{rep}/#{app["nom"]}\"")
-        					else
+	                        resApp = system("./appSetup.sh \"#{vm["nom"]}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"#{app["port"]}\" \"../apps/#{rep}/#{app["nom"]}\"")
+        				else
 							resApp = system("./appSetup.sh \"#{vm["nom"]}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"#{app["portServeur"]}\" \"../apps/#{rep}/#{app["nom"]}\" \"#{app["IPServeur"]}\"")
 						end
-	                	                if resApp != false
-                	                                puts "### Application installée avec succès (#{app["nom"]})"
-           	                        	else
-                                                	puts "### Une erreur est survenue, l'application (#{app["nom"]}) n'a pas été installée"
-                                       		end
+	                	    if resApp != false
+                	            puts "### Application installée avec succès (#{app["nom"]})"
+           	                else
+                                puts "### Une erreur est survenue, l'application (#{app["nom"]}) n'a pas été installée"
+                            end
 					else
 						puts "### Application introuvable"
 					end
@@ -44,6 +43,6 @@ data["vms"].each do |vm|
 	else
 		puts "### Une erreur est survenue, la machine virtuelle (#{vm["nom"]}) n'a pas été créée"
 	end
-	puts "\n\n"
+	print "\n\n"
 end
-puts "\n"
+print "\n"

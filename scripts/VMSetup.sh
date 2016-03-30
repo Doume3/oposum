@@ -23,9 +23,9 @@ LOG="logs/$2/VMSetup.log"
 ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
 echo "# Controleur: $ADR" >> $LOG
 
-echo "- Vérification de la keypair";
 KEYPAIR=`ssh root@$ADR 'source openstack-openrc.sh && nova keypair-list' | grep -o -E 'mainKey'`;
 if [ -z $KEYPAIR ]; then
+        echo "- Ajout de la Key Pair";
         cat ~/.ssh/id_rsa.pub | ssh root@$ADR "source openstack-openrc.sh && nova keypair-add --pub_key - mainKey"
 fi
 
@@ -37,10 +37,10 @@ if [[ "$2" =~ ^[a-zA-Z0-9_]{3,12}$ ]]; then
 	exit $ERR_ARGS
 fi
 for NOMVM in $NOMSVMS; do
-        if [ "$NOMVM" = "$2" ]; then
-                echo "Le nom de la VM $2 existe déjà, veuillez en choisir un autre"
-                exit $ERR_ARGS
-        fi
+	if [ "$NOMVM" = "$2" ]; then
+	    echo "Le nom de la VM $2 existe déjà, veuillez en choisir un autre"
+	    exit $ERR_ARGS
+	fi
 done
 
 echo "- Création de la VM...";
@@ -59,8 +59,8 @@ echo '# Creation de la VM';
 nova boot --flavor m1.$1 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron net-show -c id -f value private) --key_name mainKey $2
 
 echo '# On attend que la VM soit disponible';
-while [ \"\`nova list --name $2 | cut -d '|' -f 4 | grep -o -E '([a-zA-Z]+)' | grep -v 'Status'\`\" != "ACTIVE" ]; do
-	if [ \"\`nova list --name $2 | cut -d '|' -f 4 | grep -o -E '([a-zA-Z]+)' | grep -v 'Status'\`\" = "ERROR" ]; then
+while [ \"\`nova list --name $2 | grep -o -E 'ACTIVE|ERROR'\`\" != 'ACTIVE' ]; do
+	if [ \"\`nova list --name $2 | grep -o -E 'ACTIVE|ERROR'\`\" = 'ERROR' ]; then
 		echo '# Erreur lors du lancement de la VM'
 		exit -1
 	fi
@@ -76,15 +76,15 @@ nova add-floating-ip $2 \$IP_PUB;
 echo "- VM créée";
 
 # Connexion au controleur pour récupèrer l'IP de la VM
-IP=`ssh root@$ADR "source openstack-openrc.sh && nova list --name $2" | cut -d '|' -f 7 | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
+IP=`ssh root@$ADR "source openstack-openrc.sh && nova list --name $2" | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
 
 echo "- En attente de connexion ssh disponible ($IP)";
-while ! ssh -q debian@$IP 'exit'; do
+while ! ssh -q debian@$IP 'exit'; do #voir si on peut ping ??
         sleep 2;
 done
 
 echo "- Mise à jour de la VM...";
-ssh -q debian@$IP "echo '# UPDATE'; sudo apt-get -y update; echo '# INSTALL'; sudo apt-get -y install g++ gcc make;" >> $LOG
+ssh -q debian@$IP "echo '# UPDATE'; echo '# INSTALL'; sudo apt-get -y install gcc make;" >> $LOG #sudo apt-get -y update;
 echo "- Mise à jour réussie";
 
 exit 0
