@@ -79,8 +79,8 @@ echo "- VM créée";
 IP=`ssh root@$ADR "source openstack-openrc.sh && nova list --name $2" | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
 
 echo "- En attente de connexion ssh disponible ($IP)";
-while ! ssh -q debian@$IP 'exit'; do #voir si on peut ping ??
-        sleep 2;
+while ! ping -q -c 1 $IP; do #voir si on peut ping ??
+	sleep 2;
 done
 
 echo "- Mise à jour de la VM...";
