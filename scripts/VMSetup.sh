@@ -12,7 +12,7 @@ case $1 in
     xs|small|medium|large|xlarge)
         ;;
     *)
-        echo "taille_VM: xs | tiny | small | medium | large | xlarge : $1";
+        echo "taille_VM: xs | small | medium | large | xlarge : $1";
         exit $ERR_ARGS;;
 esac
 
@@ -32,8 +32,8 @@ fi
 NOMSVMS=`ssh root@$ADR 'source openstack-openrc.sh && nova list' | cut -d '|' -f 3 | grep -o -E '([a-zA-Z0-9_]+)' | grep -v 'Name'`;
 
 echo "- Vérification du nom de la VM ($2)";
-if [[ "$2" =~ ^[a-zA-Z0-9_]{3,12}$ ]]; then
-	echo "Le nom de la VM doit être de 3 à 12 caractères alphanumerique (a-zA-Z0-9_)"
+if ! [[ "$2" =~ ^[a-zA-Z0-9_]+$ ]]; then
+	echo "Le nom de la VM doit être alphanumerique (a-zA-Z0-9_)"
 	exit $ERR_ARGS
 fi
 for NOMVM in $NOMSVMS; do
@@ -61,8 +61,8 @@ nova boot --flavor m1.$1 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron 
 echo '# On attend que la VM soit disponible';
 while [ \"\`nova list --name $2 | grep -o -E 'ACTIVE|ERROR'\`\" != 'ACTIVE' ]; do
 	if [ \"\`nova list --name $2 | grep -o -E 'ACTIVE|ERROR'\`\" = 'ERROR' ]; then
-		echo '# Erreur lors du lancement de la VM'
-		exit -1
+		nova delete $2;
+		nova boot --flavor m1.$1 --image 'Debian Jessie 64-bit' --nic net-id=\$(neutron net-show -c id -f value private) --key_name mainKey $2
 	fi
         sleep 2;
 done
@@ -79,12 +79,12 @@ echo "- VM créée";
 IP=`ssh root@$ADR "source openstack-openrc.sh && nova list --name $2" | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
 
 echo "- En attente de connexion ssh disponible ($IP)";
-while ! ping -q -c 1 $IP; do #voir si on peut ping ??
+while ! ssh -q debian@$IP 'exit'; do
 	sleep 2;
 done
 
 echo "- Mise à jour de la VM...";
-ssh -q debian@$IP "echo '# UPDATE'; sudo apt-get -y update; echo '# UPDATE'; echo '# INSTALL'; sudo apt-get -y install gcc make;" >> $LOG;
+ssh -q debian@$IP "sudo apt-get -y update; sudo apt-get -y install gcc make;" >> $LOG;
 echo "- Mise à jour réussie";
 
 exit 0

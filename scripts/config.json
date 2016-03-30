@@ -3,6 +3,7 @@
 		{
 			"nom": "NeptuneServeur",
 			"type": "xs",
+			"nombreCopie": 1,
 			"apps": [
 				{
 					"publique": true,
@@ -21,20 +22,19 @@
 		{
 			"nom": "NeptuneClient",
 			"type": "small",
+			"nombreCopie": 2,
 			"apps": [
 				{
 					"publique": true,
 					"nom": "chat",
 					"type": "client",
-					"IPServeur": "NeptuneServeur",
-					"portServeur": 10000
+					"serveur": "NeptuneServeur"
 				},
 				{
 					"publique": false,
 					"nom": "echoUDP",
 					"type": "client",
-					"IPServeur": "NeptuneServeur",
-					"portServeur": 10001
+					"serveur": "NeptuneServeur"
 				}
 			]
 		}

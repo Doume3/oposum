@@ -6,7 +6,7 @@ echo "|  Destruction VM  |";
 echo "+------------------+";
 
 echo "Suppression des logs";
-rm -r -f logs/\*;
+rm -r -f logs/*;
 
 rake cmd cmd="source openstack-openrc.sh;
 VMVAR=\`nova list | cut -d '|' -f 3 | cut -c 2- | grep -v -E 'Name|--+'\`;
