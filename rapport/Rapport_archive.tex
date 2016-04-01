@@ -108,19 +108,20 @@
         \item SaaS : Software as a Service, les applications sont directement mis à disposition des utilisateurs, celui-ci ne s'occupe en rien de la gestion du serveur (exemple : utilisation d'un logiciel de VoIP).
     \end{itemize}
     \bigbreak
-    \begin{figure}
-        \includegraphics[width=\textwidth]{responsabilites}
-        \caption{Les responsabilités par service du cloud [Wikipédia]}
-    \end{figure}   
+     \begin{figure}[ht]
+        \includegraphics[width=\textwidth]{modules}
+        \caption{Architecture des Modules}
+    \end{figure}
+    
     
    %Il existe aussi d'autres services, comme par exemple le DaaS (Data as a service), STaaS (Storage as a service), etc, mais les trois cités plus haut sont les plus populaires.\break
      
     OpenStack est un logiciel composé d'un ensemble de modules permettant l'orchestration et le monitoring d'un cloud. Il fait partie de la catégorie des IaaS.\bigbreak
     
-    \begin{figure}
-        \includegraphics[width=\textwidth]{openstack_arch}
+    \begin{figure}[ht]
+        \includegraphics[width=\textwidth]{responsabilites}
         \caption{Les responsabilités par service du cloud [Wikipédia]}
-    \end{figure}
+    \end{figure}  
     
     Les 5 principaux modules sont Horizon, Nova, Neutron, Glance, Keystone:
     \begin{itemize}
@@ -139,11 +140,19 @@
     Nous présenterons , dans un premier temps le travail effectué, puis les problèmes que nous avons rencontrés.\bigbreak
     
     
-% ------------------------------ CONTENU ------------------------------
-% --------------- 1 ---------------
+% -------- CONTENU ----------
+% ----------- 1 -------------
 \newpage
-\chapter{Domaines d'applications}
-
+\chapter{Applications}
+    \section{XP5K-OpenStack}
+        Puppet est un outil de configuration système fiable et évolutif écrit dans un language déclaratif qui lui est propre (le Puppet Language).
+        Il permet l'automatisation des tâches souvent effectuées par le sys admin.
+        OpenStack-Puppet offre la possibilité de déployer et configurer l'ensemble des composants d'Openstack nécéssaires au sys admin.
+            
+        XP5K est une librairie écrite en Ruby aidant à la création de scripts d'éxperimentation.
+            
+        XP5K-Openstack étend XP5K pour deployer un environnement Openstack sur Grid5000 basé sur les modules ci-dessus.
+            
     \section{Virtualisation}
         \subsection{Ressources}
             Attribuer une taille à une VM (mémoire vive, stockage, architecture)
@@ -182,10 +191,7 @@
                 L'utilisateur ne doit pas se soucier des VMs, il se soucie seulement de son application. En gros on cache les aspects techniques au client.\break
         
 
-
-
-%Expliquer ici openstack ou du moins mettre le schéma frontend/controller/serveur et VM (reprendre celui du dashboard)
-
+%ici schéma frontend/controller/serveur et VM (reprendre celui du dashboard)
 
 
 % --------------- 2 ---------------
@@ -200,13 +206,14 @@
 
         \subsection{Grid5000}
         
-            Tout d'abord, nous avons commencé par le tutoriel getting started qui nous a appris les règles d'utilisation,  les réservations de jobs et l'architecture de grid5000.  (https://www.grid5000.fr/mediawiki/index.php/Getting_Started)
+            Tout d'abord, nous avons commencé par le tutoriel getting started qui nous a appris les règles d'utilisation,  les réservations de jobs et l'architecture de grid5000.\break
+            \href{https://www.grid5000.fr/mediawiki/index.php/Getting_Started}{cf. Getting Started}
             
-            Ensuite, nous avons suivi le tutoriel "OpenStack deployment on Grid5000".  (https://www.grid5000.fr/mediawiki/index.php/OpenStack_deployment_on_Grid5000 )
-        
+            Ensuite, nous avons suivi le tutoriel "OpenStack deployment on Grid5000".\break
+            \href{https://www.grid5000.fr/mediawiki/index.php/OpenStack_deployment_on_Grid5000}{cf. OpenStack Deployment}
         
             Dans un second temps il nous à été offert l'opportunité de travailler sur les clusters
-            de Grid5000, un Réseau de Ressources distribuées supporté par l'INRIA et le CNRS.\break
+            de Grid5000, un Réseau de Ressources distribuées supporté par l'INRIA et le CNRS.\bigbreak
             
             Cela nous a permis de comprendre grâce au tutoriel
             les différentes étapes de l'installation d'openstack, ainsi que les commandes de base pour son utilisation.
@@ -221,28 +228,40 @@
             \lstinputlisting[language=bash, firstline=48, lastline=48, caption=Premier script : Copie d'un fichier du frontend vers la VM]{./script1.sh}
             \lstinputlisting[language=bash, firstline=52, lastline=52, caption=Premier script : Execution d'une commande bash sur l'ensemble des VM]{./script1.sh}
             
-            
+                
     \section{Nos premiers scripts}
-        \subsection{Automatiser installation application}
-            \lstinputlisting[language=bash, firstline=8 lastline=8, caption=Installateur d'application : On récupère l'adresse du controlleur]{./APP_installer.sh}
-            \lstinputlisting[language=bash, firstline=12 lastline=12, caption=Installateur d'application : On se connecte au controlleur et on récupère les adresses ip des VM]{./APP_installer.sh}
-            \lstinputlisting[language=bash, firstline=18 lastline=20, caption=Installateur d'application : On se connecte a une VM et on installe l'application]{./APP_installer.sh}
-        \subsection{Automatiser creation VM}
-            \lstinputlisting[language=bash, firstline=1, lastline=50, caption=VM launcher]{./VM_launcher.sh}
-        \subsection{Automatiser le deploiement d'openstack sur grid5000}
-            \lstinputlisting[language=bash, firstline=12, lastline=13, caption=Deploiement : On recupère le login et le site]{./deploiement.sh}
-            \lstinputlisting[language=bash, firstline=18, lastline=18, caption=Deploiement : On copie les fichier de l'app vers le frontend]{./deploiement.sh}
-            \lstinputlisting[language=bash, firstline=26, lastline=27, caption=Deploiement : On se connecte au site]{./deploiement.sh}
-            \lstinputlisting[language=bash, firstline=56, lastline=56, caption=Deploiement : On lance l'installation d'openstack]{./deploiement.sh}
-            
+    En premier lieu, nous avons commencé par faire des petits scripts de tests pour vérifier l'acquisiton de nos nouvelles connaissances. Ces scripts n'ont pas été conservés.
+        \subsection{VM\_launcher}
+        VM\_launcher est le premier script qui a vu le jour. Ce script a pour but d'automatisé la création d'une VM, lui associé une adresse IP publique et ouvrir une série de port pour la communication. C'est en effet la 1ère étape de notre projet.
+        
+        Pour celà, nous avons crée un script écrit en bash concaténant la commande "nova boot" créant une machine, la commande "nova floating-ip-create/add" créant et associant une IP à la machine nouvellement créé, et enfin la commande "nova secgroup-rule-add" pour dévérouiller des ports.
+        Ce script étant lancé sur le controller via rake. (Script entier en annexe 1)
+        
+        \subsection{APP\_installer}
+        APP\_installer vient dans la continuité de VM\_launcher. Après avoir créer une VM nous souhaitons en effet y faire tourner au moins un programme. C'est le role d'APP\_installer de mettre en place et lancer le programme. 
+        
+        Afin d'y parvenir, nous récupérons les adresses des VM via le controller, puis pour chaque IP récupéré copions les fichiers nécessaires  à l'installation grâce à scp puis installions et lancions le programme comme si nous étions dans un terminal. (Script en annexe 2)
+        
+        \subsection{Clean}
+        Le meilleur pour la fin. L'utilité de ce script n'est même pas à démontrer. Il sert tout simplement à tout remetre à zéro. En effet, les erreurs et les test étant fréquent en phase d'écriture, nous avons vite eu besoin de ce script.
+        
+        Il détruit tous les logs générés par un rm, détruit les VM une à une grâce à "nova delete" et enfin détruit les IP générées par "nova floating-ip-delete".(Script entier en annexe 3) 
+           
+          
     \section{Nos scripts tout en 1}
         \subsection{Premier gros script}
             
-    \begin{figure}[!h]
-        \includegraphics[width=\textwidth]{network-topo}
+    \begin{figure}[ht]
+        \centering{}\includegraphics[scale=0.75]{network-topo}
         \caption{Topologie du Network}
     \end{figure}
 
+
+    \section{Automatisation d'un déploiement d'application}
+        Afin de rendre automatique le déploiement d'une application par un client nous mettons à sa disposition un programme qui permet de générer un fichier JSON. Ce fichier contient une liste de machines virtuelles avec pour chacune d'elles des attributs comme son nom, ses caractéristiques techniques, ou encore le nombre de VM identiques à celle-ci que l'on veut. Chaque VM contient aussi une liste des applications à installer avec des attributs comme son nom, son type (client/serveur), le port si c'est un serveur, ou le nom de la VM serveur si c'est un client.\bigbreak
+        
+        Ce fichier JSON devra ensuite être télécharger sur le frontend pour ensuite être analyser par un programme ruby qui permet d'appeller le script de création d'une VM, puis le script d'installation d'une application sur une VM.\bigbreak
+        
 % --------------- 3 ---------------
 \chapter{Problèmes rencontrés}
     \section{DevStack}
@@ -250,7 +269,7 @@
         qui permet d'installer différents modules de base OpenStack sur une unique machine.\bigbreak
         \subsection{Installation et configuration}
             DevStack requiert une configuration minimale, ainsi que des prérequis de configuration (systeme, network).\bigbreak
-            Il n'à pas été aisé de mettre en place cette configuration, et, quand bien même une configuration 
+            Il n'a pas été aisé de mettre en place cette configuration, et, quand bien même une configuration 
             DevStack ait été correctement mise en place et fonctionnelle, celle-ci n'à pour durée de vie qu'une session !\bigbreak
 
     \section{OpenStack sur Grid5000}
@@ -276,7 +295,11 @@
             Pour lancer une application automatiquement
             
         \subsection{XP5K-OpenStack}
-            %Blah
+            La compréhension des scripts ruby et de ses dépendances.... c l'bordel quoi
+            
+            
+            
+            
 % ------------------------------ CONCLUSION ------------------------------
 \newpage
 \chapter*{Conclusion}
@@ -285,24 +308,33 @@
 % ------------------------------ RESSOURCES DOCUMENTAIRES ------------------------------
 \newpage
 \chapter*{Ressources documentaires}
-\href{http://docs.openstack.org/developer/devstack/}{Devstack} :
+\href{}{Devstack} :
 \url{http://docs.openstack.org/developer/devstack/}
 \bigbreak
-\href{http://www.openstack.org/}{Openstack} :
+\href{}{Openstack} :
 \url{http://www.openstack.org/}
 \bigbreak
-\href{https://www.grid5000.fr/}{Grid5000} :
+\href{}{Grid5000} :
 \url{https://www.grid5000.fr/}
 \bigbreak
-\href{https://fr.wikipedia.org/wiki/Cloud_computing/}{Wikipédia} :
+\href{}{Wikipédia} :
 \url{https://fr.wikipedia.org/wiki/Cloud_computing/}
-
 
 
 % ------------------------------ ANNEXES ------------------------------
 \newpage
 \chapter*{Annexes}
-
+ \lstinputlisting[language=bash, firstline=8 lastline=8, caption=Installateur d'application : On récupère l'adresse du controlleur]{./APP_installer.sh}
+            \lstinputlisting[language=bash, firstline=12 lastline=12, caption=Installateur d'application : On se connecte au controlleur et on récupère les adresses ip des VM]{./APP_installer.sh}
+            \lstinputlisting[language=bash, firstline=18 lastline=20, caption=Installateur d'application : On se connecte a une VM et on installe l'application]{./APP_installer.sh}
+        \subsection{Automatiser creation VM}
+            \lstinputlisting[language=bash, firstline=1, lastline=50, caption=VM launcher]{./VM_launcher.sh}
+        \subsection{Automatiser le deploiement d'openstack sur grid5000}
+            \lstinputlisting[language=bash, firstline=12, lastline=13, caption=Deploiement : On recupère le login et le site]{./deploiement.sh}
+            \lstinputlisting[language=bash, firstline=18, lastline=18, caption=Deploiement : On copie les fichier de l'app vers le frontend]{./deploiement.sh}
+            \lstinputlisting[language=bash, firstline=26, lastline=27, caption=Deploiement : On se connecte au site]{./deploiement.sh}
+            \lstinputlisting[language=bash, firstline=56, lastline=56, caption=Deploiement : On lance l'installation d'openstack]{./deploiement.sh}
+            
 
 \end{document}
 % --------------------------- INSTALLATION LATEX ----------------------
