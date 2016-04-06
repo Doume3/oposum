@@ -37,7 +37,7 @@ data["vms"].each do |vm|
 		         			resApp = system("./appSetup.sh \"#{vm["nom"]}#{numVM}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"../apps/#{rep}/#{app["nom"]}\" \"#{app["port"]}\"")
         				else
 						portServeur = getPortServeur(data, app["serveur"], app["nom"])
-						resApp = system("./appSetup.sh \"#{vm["nom"]}#{numVM}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"../apps/#{rep}/#{app["nom"]}\" \"#{app["portServeur"]}\" \"#{serveur}\"")
+						resApp = system("./appSetup.sh \"#{vm["nom"]}#{numVM}\" \"#{app["nom"]}\" \"#{app["type"]}\" \"../apps/#{rep}/#{app["nom"]}\" \"#{app["portServeur"]}\" \"#{app["serveur"]}\"")
 					end
 					if resApp != false
         	      	            		puts "### Application installée avec succès (#{app["nom"]})"
