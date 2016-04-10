@@ -110,28 +110,28 @@
         L'utilisation est ainsi transparente pour les utilisateurs, qui ne se soucient ni de la plateforme, ni de sa mise à jour, ni de son administration.»
         [Cloud Computing le guide complet, auteurs Sylvain Caicoya et Jean-George Saury, édition Micro Application, 2011]
     \end{quote}
-    Dans cette partie, nous analyserons plus en détail les fonctionnalités fournises par un outil permettant de déployer un cloud : OpenStack. Nous présenterons aussi la problématique et les objectifs précis de notre projet, ainsi que notre organisation du projet.
+    Par exemple Gmail, Dropbox, ou encore ShareLatex sont des Saas.\bigbreak
+    
+    Dans cette partie, nous analyserons plus en détail les fonctionnalités fournis par un outil permettant de déployer un cloud : OpenStack. Nous présenterons aussi la problématique et les objectifs précis de notre projet, ainsi que notre organisation du projet.
 
     \section{L'environnement de cloud OpenStack}
 
     %En quoi OpenStack permet de déployer un environnement de cloud -> pomper la presentation d'OpenStack sur le site d'OpenStack (en citant !)
-    % jéjé : fuk la doc est en anglais,
-    % théo : je m'y colle
     % jéjé : bon je vais essayer..
     \begin{quote}
         «OpenStack est un ensemble de logiciels open source permettant de déployer des infrastructures de cloud computing (infrastructure en tant que service). La technologie possède une architecture modulaire composée de plusieurs projets corrélés (Nova, Swift, Glance...) qui permettent de contrôler les différentes ressources des machines virtuelles telles que la puissance de calcul, le stockage ou encore le réseau inhérents au centre de données sollicité.»
         [https://fr.wikipedia.org/wiki/OpenStack]
     \end{quote}\bigbreak
-        OpenStack permet de déployer un environnement de cloud de type IaaS (Infrastructure as a Service, en français : infrastructure prête à l'emploi). Un environnement de cloud de type IaaS permet à l'utilisateur d'accéder à des machines physiques et la plupart du temps de créer des machines virtuelles avec les ressources choisies sur lesquelles il pourra installer le système d'exploitation et les applications qu'il souhaite.
+        OpenStack permet de déployer un environnement de cloud de type IaaS (Infrastructure as a Service, en français : infrastructure prête à l'emploi). Un environnement de cloud de type IaaS permet à l'utilisateur d'accéder à des machines physiques et la plupart du temps de créer des machines virtuelles avec les ressources choisies sur lesquelles il pourra installer le système d'exploitation et les applications qu'il souhaite. Par exemple, OVH, Online, FirstHeberg sont des entreprises offrant ce service à travers des offres de location de serveurs virtuels.\bigbreak
         OpenStack est à ce jour composé de 17 logiciels que nous ne pouvons vous présenter intégralement.
-        On s'intéresse à un seul composant d'OpenStack : Nova.
+        On s'intéressera à un seul composant d'OpenStack : Nova.
         \begin{quote}
             «Nova dirige le cycle de vie des instances de calcul dans un environnement OpenStack. Les responsabilités de Nova englobent la création, l'ordonnancement et le démantelement des machines virtuelles sur demande.»\break
             [http://www.openstack.org/software/releases/liberty/components/nova]
         \end{quote}\bigbreak
         Sur les systèmes linux, Nova utilise la plateforme de virtualisation KVM intégrée au noyau et permettant la simulation de plusieurs systèmes d'exploitation ( ou machines virtuelles ) sur une même machine physique.
-        Nova est la brique élémentaire d'OpenStack, le logiciel Nova est suffisant pour créer un environnement de cloud.
-        En effet le logiciel Nova est suffisant pour créer un ensemble de machines virtuelles connectées au réseau publique de la machine hôte et installer un système d'exploitation et des serveurs ssh sur ces machines virtuelles. Par la suite l'utilisateur peut se connecter à ces machines et installer les applications qu'il souhaite, et ainsi exécuter ses applications à distance. 
+        Nova est la brique élémentaire d'OpenStack, il est suffisant pour créer un environnement de cloud.
+        En effet il permet de créer un ensemble de machines virtuelles connectées au réseau publique de la machine hôte et installer un système d'exploitation ainsi que des serveurs ssh sur ces machines virtuelles. Par la suite l'utilisateur peut donc se connecter à ces machines et installer les applications qu'il souhaite, et ainsi exécuter ses applications à distance. 
 
     \section{Problématique et objectifs du projet}
 
@@ -154,20 +154,21 @@
 
 	\section{Organisation du projet}
 	
-	Afin de mieux déterminer les tâches à effectuer, nous avons réalisé le diagramme de Gantt disponible en annexe figure 6.2 et 6.1.
+	Afin de mieux déterminer les tâches à effectuer, nous avons réalisé un diagramme de Gantt (disponible en annexe figure 6.1 et 6.2).
 	
-	On peut y voir que le projet se déroule en plusieurs étapes qui sont :
+	On peut voir que nous avons découpé le projet en plusieurs étapes qui sont :
 	\begin{itemize}
 	    \item Le déploiement et la prise en main d'OpenStack. Cette étape consiste à installer OpenStack sur une plateforme quelconque, à comprendre les différents outils que nous procure OpenStack, à créer et configurer un ensemble de machines virtuelles avec OpenStack.
 	    \item Comprendre la procédure d'installation et d'exécution d'une application sur une machine virtuelle OpenStack. Cette étape consiste à installer et exécuter une application quelconque sur une machine virtuelle ( par exemple une application client-serveur ).
 	    \item Automatiser le déploiement d'un ensemble de machines virtuelles et l'installation et l'exécution d'un ensemble d'applications dessus.
 	\end{itemize}
+	\bigbreak
 
     %Dire la fréquence des réunions avec Bouziane.
     %Expliquer qu'on a bossé chacun de notre coté au départ et qu'on a bossé ensemble après
     %La répartition des tâches : au feeling.
     Tout au long du projet nous nous sommes réunis en moyenne deux après-midi par semaine pour travailler le projet.
-    Chaque semaine nous avions une réunion avec notre tutrice de projet afin de l'informer de nos avancements.
+    Nous avions aussi une réunion hebdomadaire avec notre tutrice de projet afin de l'informer de nos avancements et de lui demander des conseils.\bigbreak
 
 	%Plan du rapport ( paragraphe ou plan numéroté ?)
     À la suite de ce chapitre introductif, nous présenterons la prise en main de l'environnement OpenStack à travers nos premières expériences. Ensuite, nous développerons le travail effectué notamment sur la conception de l'outil permettant le déploiement d'applications sur des machines virtuelles. Enfin nous terminerons par un bilan sur ce projet de cloud computing à travers OpenStack.\bigbreak
@@ -178,7 +179,9 @@
 \newpage
 \chapter{Prise en main de l'environnement d'OpenStack}
 
-       Il existe deux solutions pour gérer son cloud avec Openstack. La première est l'utilisation du dashboard ( en français tableau de bord )  qui propose une interface utilisateur basée sur des pages web pour gérer les differents services (Nova, Neutron, ...). La deuxième est de passer par une interface de programmation applicative (souvent désignée par le terme API pour Application Programming Interface). C'est un ensemble normalisé de classes, de méthodes ou de fonctions qui sert de façade par laquelle un logiciel offre des services à d'autres logiciels. Afin d'atteindre notre but d'automatisation, nous avons choisi d'utiliser l'API  offrant plus d'outils pour y parvenir.
+       Il existe deux solutions pour gérer son cloud avec Openstack. La première est l'utilisation du dashboard (module horizon) ( en français tableau de bord )  qui propose une interface utilisateur basée sur des pages web pour gérer les differents services (Nova, Neutron, ...). La deuxième est de passer par une interface de programmation applicative (souvent désignée par le terme API pour Application Programming Interface). C'est un ensemble normalisé de classes, de méthodes ou de fonctions qui sert de façade par laquelle un logiciel offre des services à d'autres logiciels. Afin d'atteindre notre but d'automatisation, nous avons choisi d'utiliser l'API  offrant plus d'outils pour y parvenir.\bigbreak
+       
+       Il est à noté que le dashboard horizon fournit une vue d'ensemble de notre cloud. Il est disponible en annexe page \pageref{cloudHorizon} figure \ref{cloudHorizon}.
        
 		%Paragraphe introductif : On peut controler son cloud soit grace au dashboard (expliquer ce qu'est le dashboard : clic clic pouet pouet), soit grace à l'API (qu'est-ce que l'API). L'API est la seule solution pour l'automatisation<.
     
@@ -210,12 +213,12 @@
         \item Avec différentes configurations réseau.
     \end{itemize}\bigbreak
     Il est conseillé de ne pas utiliser DevStack sur les systèmes à nu mais sur des machines virtuelles car DevStack modifie la configuration réseau et la configuration des droits d'accès aux fichiers sur le système hôte.
-    Nos objectifs avec DevStack étaient de déployer un environnement de cloud OpenStack sur nos machines de manière individuelle dans un premier temps puis de déployer OpenStack sur un réseau comprenant l'ensemble de nos machines.
-    Faisant face à divers difficultés, nous avons décidé avec notre tutrice d'arrêté le déploiement de DevStack sur nos machines. À la place nous nous sommes tourné vers la possibilité de déployer OpenStack sur un réseau de machines distantes.  
+    Nos objectifs avec DevStack étaient de déployer un environnement de cloud OpenStack sur nos machines de manière individuelle dans un premier temps puis de déployer OpenStack sur un réseau comprenant l'ensemble de nos machines.\bigbreak
+    Faisant face à divers difficultés lors de l'installation pour certains et lors du déploiement pour d'autres, nous avons décidé avec notre tutrice d'arrêté le déploiement de DevStack sur nos machines. À la place nous nous sommes tourné vers la possibilité de déployer OpenStack sur un réseau de machines distantes.  
     
     \section{Déploiement d'OpenStack sur un réseau distant}
 
-		\subsection{Presentation grid5000}
+		\subsection{Présentation grid5000}
 
         \begin{quote}
         «Grid'5000 est un environnement de test versatile et à grande échelle pour mener des experiences de recherches dans tous les domaines de l'informatique, avec un soin particulier pour l'informatique parrallèle et distribué comme le "Cloud", le calcul à haute performance ou encore le "Big Data".» [https://www.grid5000.fr]
@@ -295,31 +298,25 @@ La dernière étape étant simplement d'installer et d'éxécuter la ou les appl
 % ----------- 3 -------------
 \chapter{Un outil pour automatiser le déloiement et l'exécution d'applications sur OpenStack}
    
-Afin de réaliser cette tâche, nous avons décidé de créer des "scripts" écrits en BASH et en Ruby. Un script est un code interprété qui à la manière d'un script au théatre édicte une sucession d'actions à réaliser. Les scripts nous servent à lancer et coordonner l'exécution des comamndes des modules Openstack. 
+Afin de réaliser cette tâche, nous avons décidé de créer des "scripts" écrits en Bash et en Ruby. Un script est un code interprété qui à la manière d'un script au théatre édicte une sucession d'actions à réaliser. Les scripts nous servent à exécuter et coordonner les comamndes de Nova automatiquement. 
    
 	%Paragraphe introductif : Quels sont les solutions techniques pour automatiser les tâches citées précedement afin de cacher les aspect techniques à l'utilisateur?
 
-    Dans un premier temps nous verrons l'aspect algorithmique puis ensuite l'aspect technique.
+    Dans un premier temps nous verrons l'aspect algorithmique puis ensuite l'aspect technique des scripts développés.
 
 
     \section{Description générale}
 
     %algo : parser le fichier de configuration en un tableau
     %parcourir le tableau et creer les VM et installer les applications sur les VM
-    La première étape du processus d'automatisation est la création d'un fichier de configuration contenant les informations sur les machines virtuelles ainsi que sur les applications devant y être installés.
+    La première étape du processus d'automatisation est la création d'un fichier de configuration structuré, contenant les informations sur les machines virtuelles ainsi que sur les applications devant y être installés.\bigbreak
     
-    Une fois que ce fichier de configuration est créé, alors on démarre le script qui analyse ce fichier et organise les informations en tableau. Ce tableau est constitué de plusieurs niveaux, le premier représentant les machines virtuelles et le second niveau représentant les applications liées à une machine virtuelle.
+    Une fois que ce fichier de configuration est créé, alors on démarre le script qui analyse ce fichier et organise les informations en tableau. Ce tableau est constitué de plusieurs niveaux, le premier représentant les machines virtuelles et le second niveau représentant les applications liées à une machine virtuelle.\bigbreak
     
-    Le script parcourt le tableau et pour chaque machine virtuelle il commence par appeler le script de création d'une machine virtuelle, puis appelle le script d'installation et d'exécution d'une application par la suite.
+    Le script parcourt ensuite le tableau et pour chaque machine virtuelle il commence par appeler le script de création d'une machine virtuelle, puis pour chaque application il appelle le script d'installation et d'exécution d'une application.\bigbreak
     
-    Notre programme est composé de trois algorithmes :
-    \begin{itemize}
-        \item Un algorithme principal pour la création de plusieurs machines virtuelles dont la description est en annexe page \pageref{construct}, figure \ref{construct}.
-        \item Un algorithme secondaire pour la creation d'une machine virtuelle dont la description est en annexe page \pageref{vmsetup} figure \ref{vmsetup}.
-        \item Un deuxième algorithme secondaire pour l'installation et l'exécution d'une application sur une machine virtuelle dont la description est en annexe page \pageref{appsetup} figure \ref{appsetup}.
-    \end{itemize}
+    Vous trouverez en annexe page \pageref{construct}, figure \ref{construct} l'algorithme du script principal, page \pageref{vmsetup}, figure \ref{vmsetup} l'algorithme du script de création d'une machine virtuelle, et page \pageref{appsetup}, figure \ref{appsetup} l'algorithme d'installation et d'exécution d'une application sur un machine virtuelle. \bigbreak
     
-
     %algo installation d'application : transferer les fichiers sur la VM
     %se connecter a la VM
     %lancer le programme d'installation
@@ -328,19 +325,19 @@ Afin de réaliser cette tâche, nous avons décidé de créer des "scripts" écr
     \section{Technologies utilisées}
 
     %JSON, RUBY, BASH, SCP/SSH
-    Pour implémenter notre projet nous allons devoir prendre en main différents outils de base :
+    Pour réaliser notre projet nous avons dû prendre en main différents outils de base :
     \begin{itemize}
-        \item Pour naviguer de notre machine personnelle vers les machines du réseau Grid'5000 et entre les différentes machines virtuelles, nous utilisons l'outil SSH.
+        \item SSH : pour naviguer de notre machine personnelle vers les machines du réseau Grid'5000 et entre les différentes machines virtuelles.
         \begin{quote}
             «SSH signifie Secure SHell. C'est un protocole qui permet de faire des connexions sécurisées (i.e. chiffrées) entre un serveur et un client SSH.»
             [http://formation-debian.via.ecp.fr/ssh.html]
         \end{quote}
-        \item Pour transférer nos fichiers de notre machine personnelle à notre réportoire sur un site géographique du réseau Grid'5000, et par la suite transférer ces fichiers sur nos machines virtuelles, nous utilisons l'outil SCP.
+        \item SCP : pour transférer nos fichiers de notre machine personnelle à notre réportoire sur un site géographique du réseau Grid'5000, et par la suite transférer ces fichiers sur nos machines virtuelles.
         \begin{quote}
             «Secure copy (SCP) désigne un transfert sécurisé de fichiers entre deux ordinateurs utilisant le protocole de communication SSH»
             [https://fr.wikipedia.org/wiki/Secure\_copy]
         \end{quote}
-        \item Pour permettre à l'utilisateur de spécifier l'architecture qu'il souhaite mettre en place avec la configuration des applications et des machines virtuelles, le tout dans une syntaxe simple d'utilisation, et pouvoir récupérer ces informations dans des variables de manière structurée sous forme de tableau et de dictionnaires de données, nous utilisons le format de données textuelles JSON. 
+        \item JSON : pour permettre à l'utilisateur de spécifier l'architecture qu'il souhaite mettre en place avec la configuration des applications et des machines virtuelles, le tout dans une syntaxe simple d'utilisation, et pouvoir récupérer ces informations dans des variables de manière structurée sous forme de tableau et de dictionnaires de données. 
         \begin{quote}
             «JSON (JavaScript Object Notation – Notation Objet issue de JavaScript) est un format léger d'échange de données. Il est facile à lire ou à écrire pour des humains. Il est aisément analysable ou générable par des machines.»
             [http://www.json.org/json-fr.html]
@@ -355,31 +352,25 @@ Afin de réaliser cette tâche, nous avons décidé de créer des "scripts" écr
     %montrer le parcours du tableau en ruby
 
     %montrer creation VM et installation app en bash
-VM\_launcher est le premier script que nous avons développé. Il a pour but d'automatiser la création d'une VM, lui associer une adresse IP publique et ouvrir une plage de port pour la communication. Pour cela, nous avons créé un script écrit en Bash exécutant la commande "nova boot" pour créé une machine virtuelle, la commande "nova floating-ip-create/add" créant et associant une IP à la machine nouvellement créé, et enfin la commande "nova secgroup-rule-add" pour ouvrir des ports.\bigbreak
+VM\_launcher est le premier script que nous avons développé. Il a pour but d'automatiser la création d'une VM, lui associer une adresse IP publique et ouvrir une plage de port pour la communication réseau. Pour cela, nous avons créé un script écrit en Bash exécutant la commande "nova boot" pour créé une machine virtuelle, la commande "nova floating-ip-create/add" créant et associant une IP à la machine nouvellement créé, et enfin la commande "nova secgroup-rule-add" pour ouvrir des ports.\bigbreak
 
-APP\_installer vient dans la continuité de VM\_launcher. Après avoir créer une VM nous souhaitons en effet y déployer au moins un programme. C'est le role d'APP\_installer il installe et démarre un programme. Afin d'y parvenir, nous récupérons les adresses des VM via le controller, puis pour chaque IP récupéré copions les fichiers nécessaires à l'installation grâce à la commande 'scp' puis installons et démarrons le programme comme si nous étions dans un terminal.\bigbreak
+APP\_installer vient dans la continuité de VM\_launcher. Après avoir créer une VM nous souhaitons en effet y déployer au moins un programme. C'est le rôle d'APP\_installer il installe et démarre un programme. Afin d'y parvenir, nous récupérons les adresses des VM via le controller, puis pour chaque IP récupéré nous copions les fichiers nécessaires à l'installation grâce à la commande SCP, puis installons et démarrons le programme comme si nous étions dans un terminal.\bigbreak
 
-Enfin pour permettre le déploiement automatique, nous avons créé le script 'construc' en ruby. C'est le script qui parcourt le fichier de configuration JSON, et appelle VMSetup et appSetup, les scripts légérement modifié de VM\_launcher et APP\_installer pour être adapté au déploiement automatique.\bigbreak
+Enfin pour permettre le déploiement automatique, nous avons créé le script 'construc' en ruby. C'est le script qui parcourt le fichier de configuration JSON, et appelle VMSetup et appSetup, les scripts légérement modifié de VM\_launcher et APP\_installer qui ont été adapté pour le déploiement automatique.\bigbreak
 
     \section{Expérimentation}
     
-Lors de l'éxécution de nos scripts, il est nécessaire de vérifier si chaque étape s'est déroulée correctement. Les plus importantes étant, dans un premier temps, la création des machines virtuelles et celle des adresses IP, l'association de ces dernières aux machines et, dans un second temps, l'installation et l'éxécution des programmes.\bigbreak
+    %Comment vérifier que les VM ont bien été crées et que les adresses ip ont bien été créées et attribuées.
+Lors de l'éxécution de nos scripts, il est nécessaire de vérifier si chaque étape s'est déroulée correctement. Les plus importantes étant, dans un premier temps, la création des machines virtuelles et celle des adresses IP ainsi que l'association de ces dernières aux machines, et dans un second temps, l'installation et l'éxécution des programmes.\bigbreak
 
 Pour les premières étapes à vérifier, Nova nous fournit deux commandes. La première: nova floating-ip-list, permet de voir la liste des IP créées. La seconde: nova list, permet de voir les machines virtuelles créées ainsi que leurs caractéristiques, notamment si une IP a été liée à une machine.\bigbreak
 
 %peut être rajouter ce que les 2 comamndes affichent en image
 
-Pour les autres étapes, nous supposons que les programmes s'installent bien ou qu'ils aient eux-mêmes prévu ce qu'ils doivent faire en cas d'échec (désintallation, nouvelle essai, etc...). Il est tout de même possible de vérifier qu'un programme est présent sur une VM en se connectant à celle-ci et en regardant par soi-même.\break[1]
-Pour l'éxécution d'un programme, il y a principalement  deux façons de faire, la plus simple (et la mieux) étant de récupérer un résultat ou un logfile (à définir peut être). L'autre façon étant de se connecter à la machine et de vérifier les processus actifs (par exemple: ps -ef | grep le nomDuProg).\bigbreak
+Pour les autres étapes, nous supposons que les programmes s'installent bien ou qu'ils aient eux-mêmes prévu ce qu'ils doivent faire en cas d'échec (désintallation, nouvelle essai, etc...). Il est tout de même possible de vérifier qu'un programme est présent sur une VM en se connectant à celle-ci et en regardant par soi-même.\bigbreak
 
-Il est à noté que le dashboard horizon fournit une vue d'ensemble de notre cloud disponible en annexe page \pageref{cloudHorizon} figure \ref{cloudHorizon}.
-
-%mettre la photo du cloud
-
-
-    %Comment vérifier que les VM ont bien été crées et que les adresses ip ont bien été créées et attribuées.
-
-    %Comment vérifier que les programmes ont bien été exécutés.
+%Comment vérifier que les programmes ont bien été exécutés.
+Pour vérifier l'éxécution d'un programme, il y a principalement  deux façons de faire, la plus simple étant de récupérer un résultat retourné ou un fichier de log. L'autre façon étant de se connecter à la machine virtuelle et de vérifier les processus actifs (par exemple: ps -ef | grep le nomDuProg).\bigbreak
 
 
     \section{Améliorations}
@@ -430,13 +421,18 @@ Il est à noté que le dashboard horizon fournit une vue d'ensemble de notre clo
     %Résumé, aboutissements et ce qui est en cours
     Après quelques difficultés liés à l'utilisation de DevStack, nous avons réussi à nous intégrer à l'environnement de Grid'5000. Petit à petit, nous avons réalisé des scripts réalisant des parties de notre objectif, pour arriver à la fin à un script global qui permet d'automatiser le déploiement de une ou plusieurs applications sur une ou plusieurs machines virtuelles.\bigbreak
     
-    Les premiers scripts que nous avions développé étant en Bash, et l'environnement d'OpenStack étant en Python, nous avons décidé de les adaptés pour avoir plus de cohérence. Python étant un langage plus évolué que Bash il permet l'utilisation de bibliothèque, ce qui rend aussi son utilisation plus facile. Ces scripts Python sont actuellement en développement.\bigbreak
+    Les premiers scripts que nous avions développé étant en Bash, et l'environnement d'OpenStack étant en Python, nous avons décidé de les adaptés pour avoir plus de cohérence.
+    
+    Python étant un langage plus évolué que Bash il permet aussi l'utilisation de bibliothèque liées à OpenStack, ce qui rend aussi son utilisation plus facile. Le script ruby 'construct'  qui permet de parcourir le fichier de configuration JSON est également à refaire en Python.
+    
+    Ces nouveaux scripts Python sont actuellement en développement.\bigbreak
 
     %Faire un bilan : les difficultés et comment ça nous a permi de comprendre des trucs.
 
     %Finir sur une note positive : ce qu'on a retenu.
-    L'utilisation de Grid'5000 nous a permis d'acquérir d'importantes notions sur les infrastructures informatiques à grandes échelles.
-    Ce projet nous a permis d'acquérir d'importantes compétences et notions dans le domaine du cloud computing et d'OpenStack dans un contexte où le cloud computing semble être omniprésent.\bigbreak
+    L'utilisation de Grid'5000 nous a permis d'acquérir d'importantes notions sur les infrastructures informatiques à grandes échelles.\bigbreak
+    
+    Ce projet nous a aussi permis d'acquérir d'importantes compétences et notions dans le domaine du cloud computing et d'OpenStack dans un contexte où le cloud computing semble être omniprésent.\bigbreak
     
  
 % --- RESSOURCES DOCUMENTAIRES ---
