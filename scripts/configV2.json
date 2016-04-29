@@ -1,0 +1,18 @@
+{
+	"apps" : [
+		{
+			"nomApp" : "chat",
+			"typeApp" : "serveur",
+			"parametresApp" : "PORT",
+			"nbVMs" : 1,
+			"typeVMs" : "small"
+		},
+		{
+			"nomApp" : "chat",
+			"typeApp" : "client",
+			"paramtresApp" : "IP PORT",
+			"nbVMs" : 3,
+			"typeVMs" : "xs"
+		}
+	]
+}
