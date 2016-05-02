@@ -5,6 +5,7 @@
 			"typeApp" : "serveur",
 			"parametresApp" : "PORT",
 			"nbVMs" : 1,
+			"nomVMs" : "NeptuneServeur",
 			"typeVMs" : "small"
 		},
 		{
@@ -12,6 +13,7 @@
 			"typeApp" : "client",
 			"paramtresApp" : "IP PORT",
 			"nbVMs" : 3,
+			"nomVMs" : "NeptuneClient",
 			"typeVMs" : "xs"
 		}
 	]
