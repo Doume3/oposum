@@ -1,42 +1,20 @@
 {
-	"vms": [
+	"apps" : [
 		{
-			"nom": "NeptuneServeur",
-			"type": "xs",
-			"nombreCopie": 1,
-			"apps": [
-				{
-					"publique": true,
-					"nom": "chat",
-					"type": "serveur",
-					"port": 10000
-				},
-				{
-					"publique": false,
-					"nom": "echoUDP",
-					"type": "serveur",
-					"port": 10001
-				}
-			]
+			"nomApp" : "chat",
+			"typeApp" : "serveur",
+			"parametresApp" : "10000",
+			"nbVMs" : 1,
+			"nomVMs" : "NeptuneServeur",
+			"typeVMs" : "small"
 		},
 		{
-			"nom": "NeptuneClient",
-			"type": "small",
-			"nombreCopie": 2,
-			"apps": [
-				{
-					"publique": true,
-					"nom": "chat",
-					"type": "client",
-					"serveur": "NeptuneServeur"
-				},
-				{
-					"publique": false,
-					"nom": "echoUDP",
-					"type": "client",
-					"serveur": "NeptuneServeur"
-				}
-			]
+			"nomApp" : "chat",
+			"typeApp" : "client",
+			"parametresApp" : "{{IPVM:NeptuneServeur}} 10000 Alex",
+			"nbVMs" : 1,
+			"nomVMs" : "NeptuneClient",
+			"typeVMs" : "xs"
 		}
 	]
 }
