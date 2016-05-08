@@ -1,322 +1,0 @@
-# Controleur: genepi-9.grenoble.grid5000.fr
-# Controleur: genepi-9.grenoble.grid5000.fr
-Connected to genepi-9.grenoble.grid5000.fr...
-[command][genepi-9.grenoble.grid5000.fr] 
-echo '# Execution du source openstack';
-source openstack-openrc.sh;
-
-VAR_RULE=`nova secgroup-list-rules default | grep -o 10000`;
-if [ -z "$VAR_RULE" ]; then
-        echo '# Ajout des regles du parfeu'
-        nova secgroup-add-rule default tcp 10000 10100 0.0.0.0/0;
-        nova secgroup-add-rule default udp 10000 10100 0.0.0.0/0;
-fi
-
-echo '# Creation de la VM';
-nova boot --flavor m1.small --image 'Debian Jessie 64-bit' --nic net-id=$(neutron net-show -c id -f value private) --key_name mainKey NeptuneServeur1
-
-echo '# On attend que la VM soit disponible';
-while [ "`nova list --name NeptuneServeur1 | grep -o -E 'ACTIVE|ERROR'`" != 'ACTIVE' ]; do
-	if [ "`nova list --name NeptuneServeur1 | grep -o -E 'ACTIVE|ERROR'`" = 'ERROR' ]; then
-		nova delete NeptuneServeur1;
-		nova boot --flavor m1.small --image 'Debian Jessie 64-bit' --nic net-id=$(neutron net-show -c id -f value private) --key_name mainKey NeptuneServeur1
-	fi
-        sleep 2;
-done
-
-echo '# Creation de l IP publique';
-IP_PUB=`nova floating-ip-create public | grep -o -E '(([0-9]{1,3}\.){3}[0-9]{1,3})'`;
-echo "# Ajout de l IP publique ($IP_PUB) a la VM";
-nova add-floating-ip NeptuneServeur1 $IP_PUB;
-[stdout][genepi-9.grenoble.grid5000.fr] # Execution du source openstack
-[stdout][genepi-9.grenoble.grid5000.fr] # Ajout des regles du parfeu
-[stdout][genepi-9.grenoble.grid5000.fr] +-------------+-----------+---------+-----------+--------------+
-| IP Protocol | From Port | To Port | IP Range  | Source Group |
-+-------------+-----------+---------+-----------+--------------+
-| tcp         | 10000     | 10100   | 0.0.0.0/0 |              |
-+-------------+-----------+---------+-----------+--------------+
-[stdout][genepi-9.grenoble.grid5000.fr] +-------------+-----------+---------+-----------+--------------+
-| IP Protocol | From Port | To Port | IP Range  | Source Group |
-+-------------+-----------+---------+-----------+--------------+
-| udp         | 10000     | 10100   | 0.0.0.0/0 |              |
-+-------------+-----------+---------+-----------+--------------+
-[stdout][genepi-9.grenoble.grid5000.fr] # Creation de la VM
-[stdout][genepi-9.grenoble.grid5000.fr] +--------------------------------------+-------------------------------------------------------------+
-| Property                             | Value                                                       |
-+--------------------------------------+-------------------------------------------------------------+
-| OS-DCF:diskConfig                    | MANUAL                                                      |
-| OS-EXT-AZ:availability_zone          |                                                             |
-| OS-EXT-SRV-ATTR:host                 | -                                                           |
-| OS-EXT-SRV-ATTR:hypervisor_hostname  | -                                                           |
-| OS-EXT-SRV-ATTR:instance_name        | instance-00000001                                           |
-| OS-EXT-STS:power_state               | 0                                                           |
-| OS-EXT-STS:task_state                | scheduling                                                  |
-| OS-EXT-STS:vm_state                  | building                                                    |
-| OS-SRV-USG:launched_at               | -                                                           |
-| OS-SRV-USG:terminated_at             | -                                                           |
-| accessIPv4                           |                                                             |
-| accessIPv6                           |                                                             |
-| adminPass                            | qtihPVTVUFq4                                                |
-| config_drive                         |                                                             |
-| created                              | 2016-05-06T22:41:32Z                                        |
-| flavor                               | m1.small (2)                                                |
-| hostId                               |                                                             |
-| id                                   | f1c0a398-eaa1-45a9-b1b4-a3af99119711                        |
-| image                                | Debian Jessie 64-bit (e61e8cca-ae57-4011-bb8f-ab162d3ce03d) |
-| key_name                             | mainKey                                                     |
-| metadata                             | {}                                                          |
-| name                                 | NeptuneServeur1                                             |
-| os-extended-volumes:volumes_attached | []                                                          |
-| progress                             | 0                                                           |
-| security_groups                      | default                                                     |
-| status                               | BUILD                                                       |
-| tenant_id                            | d78c2e69e8174c49ac1ba39a5d857b98                            |
-| updated                              | 2016-05-06T22:41:32Z                                        |
-| user_id                              | 67e044ee5d6d4ba2af2c445f607c65f5                            |
-+--------------------------------------+-------------------------------------------------------------+
-[stdout][genepi-9.grenoble.grid5000.fr] # On attend que la VM soit disponible
-[stdout][genepi-9.grenoble.grid5000.fr] # Creation de l IP publique
-[stdout][genepi-9.grenoble.grid5000.fr] # Ajout de l IP publique (10.132.0.11) a la VM
----- genepi-9.grenoble.grid5000.fr -----------------------------------------------------------------------------------------------------------------------------------------------------------
-# Execution du source openstack
-# Ajout des regles du parfeu
-+-------------+-----------+---------+-----------+--------------+
-| IP Protocol | From Port | To Port | IP Range  | Source Group |
-+-------------+-----------+---------+-----------+--------------+
-| tcp         | 10000     | 10100   | 0.0.0.0/0 |              |
-+-------------+-----------+---------+-----------+--------------+
-+-------------+-----------+---------+-----------+--------------+
-| IP Protocol | From Port | To Port | IP Range  | Source Group |
-+-------------+-----------+---------+-----------+--------------+
-| udp         | 10000     | 10100   | 0.0.0.0/0 |              |
-+-------------+-----------+---------+-----------+--------------+
-# Creation de la VM
-+--------------------------------------+-------------------------------------------------------------+
-| Property                             | Value                                                       |
-+--------------------------------------+-------------------------------------------------------------+
-| OS-DCF:diskConfig                    | MANUAL                                                      |
-| OS-EXT-AZ:availability_zone          |                                                             |
-| OS-EXT-SRV-ATTR:host                 | -                                                           |
-| OS-EXT-SRV-ATTR:hypervisor_hostname  | -                                                           |
-| OS-EXT-SRV-ATTR:instance_name        | instance-00000001                                           |
-| OS-EXT-STS:power_state               | 0                                                           |
-| OS-EXT-STS:task_state                | scheduling                                                  |
-| OS-EXT-STS:vm_state                  | building                                                    |
-| OS-SRV-USG:launched_at               | -                                                           |
-| OS-SRV-USG:terminated_at             | -                                                           |
-| accessIPv4                           |                                                             |
-| accessIPv6                           |                                                             |
-| adminPass                            | qtihPVTVUFq4                                                |
-| config_drive                         |                                                             |
-| created                              | 2016-05-06T22:41:32Z                                        |
-| flavor                               | m1.small (2)                                                |
-| hostId                               |                                                             |
-| id                                   | f1c0a398-eaa1-45a9-b1b4-a3af99119711                        |
-| image                                | Debian Jessie 64-bit (e61e8cca-ae57-4011-bb8f-ab162d3ce03d) |
-| key_name                             | mainKey                                                     |
-| metadata                             | {}                                                          |
-| name                                 | NeptuneServeur1                                             |
-| os-extended-volumes:volumes_attached | []                                                          |
-| progress                             | 0                                                           |
-| security_groups                      | default                                                     |
-| status                               | BUILD                                                       |
-| tenant_id                            | d78c2e69e8174c49ac1ba39a5d857b98                            |
-| updated                              | 2016-05-06T22:41:32Z                                        |
-| user_id                              | 67e044ee5d6d4ba2af2c445f607c65f5                            |
-+--------------------------------------+-------------------------------------------------------------+
-# On attend que la VM soit disponible
-# Creation de l IP publique
-# Ajout de l IP publique (10.132.0.11) a la VM
-Closing ssh connections...
-Get:1 http://security.debian.org jessie/updates InRelease [63.1 kB]
-Get:2 http://security.debian.org jessie/updates/main Sources [130 kB]
-Ign http://http.debian.net jessie InRelease
-Get:3 http://security.debian.org jessie/updates/main amd64 Packages [237 kB]
-Get:4 http://http.debian.net jessie-updates InRelease [142 kB]
-Get:5 http://security.debian.org jessie/updates/main Translation-en [129 kB]
-Get:6 http://http.debian.net jessie Release.gpg [2,373 B]
-Get:7 http://http.debian.net jessie Release [148 kB]
-Get:8 http://http.debian.net jessie-updates/main amd64 Packages/DiffIndex [3,472 B]
-Get:9 http://http.debian.net jessie-updates/main Sources [14.1 kB]
-Get:10 http://http.debian.net jessie-updates/main Translation-en/DiffIndex [1,720 B]
-Get:11 http://http.debian.net jessie/main Sources [7,059 kB]
-Get:12 http://http.debian.net jessie/main amd64 Packages [6,763 kB]
-Get:13 http://http.debian.net jessie-updates/main amd64 2016-03-26-2053.48.pdiff [527 B]
-Get:14 http://http.debian.net jessie-updates/main 2016-03-04-0853.34.pdiff [1,371 B]
-Get:15 http://http.debian.net jessie-updates/main 2016-04-19-2053.08.pdiff [2,245 B]
-Get:16 http://http.debian.net jessie/main Translation-en [4,581 kB]
-Get:17 http://http.debian.net jessie-updates/main amd64 2016-03-04-0853.34.pdiff [3,697 B]
-Get:18 http://http.debian.net jessie-updates/main amd64 2016-04-10-2047.32.pdiff [2,817 B]
-Get:19 http://http.debian.net jessie-updates/main amd64 2016-04-19-2053.08.pdiff [2,111 B]
-Get:20 http://http.debian.net jessie-updates/main amd64 2016-04-23-1455.20.pdiff [378 B]
-Get:21 http://http.debian.net jessie-updates/main amd64 2016-05-02-2123.23.pdiff [254 B]
-Get:22 http://http.debian.net jessie-updates/main 2016-04-10-2047.32.pdiff [4,538 B]
-Get:23 http://http.debian.net jessie-updates/main amd64 2016-05-02-2123.23.pdiff [254 B]
-Get:24 http://http.debian.net jessie-updates/main 2016-04-10-2047.32.pdiff [4,538 B]
-Fetched 19.3 MB in 7s (2,634 kB/s)
-Reading package lists...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following extra packages will be installed:
-  binutils cpp cpp-4.9 gcc-4.9 libasan1 libatomic1 libc-dev-bin libc6
-  libc6-dev libcilkrts5 libcloog-isl4 libgcc-4.9-dev libgomp1 libisl10 libitm1
-  liblsan0 libmpc3 libmpfr4 libquadmath0 libtsan0 libubsan0 linux-libc-dev
-  manpages-dev
-Suggested packages:
-  binutils-doc cpp-doc gcc-4.9-locales gcc-multilib autoconf automake libtool
-  flex bison gdb gcc-doc gcc-4.9-multilib gcc-4.9-doc libgcc1-dbg libgomp1-dbg
-  libitm1-dbg libatomic1-dbg libasan1-dbg liblsan0-dbg libtsan0-dbg
-  libubsan0-dbg libcilkrts5-dbg libquadmath0-dbg glibc-doc make-doc
-The following NEW packages will be installed:
-  binutils cpp cpp-4.9 gcc gcc-4.9 libasan1 libatomic1 libc-dev-bin libc6-dev
-  libcilkrts5 libcloog-isl4 libgcc-4.9-dev libgomp1 libisl10 libitm1 liblsan0
-  libmpc3 libmpfr4 libquadmath0 libtsan0 libubsan0 linux-libc-dev make
-  manpages-dev
-The following packages will be upgraded:
-  libc6
-1 upgraded, 24 newly installed, 0 to remove and 44 not upgraded.
-Need to get 28.2 MB of archives.
-After this operation, 90.9 MB of additional disk space will be used.
-Get:1 http://http.debian.net/debian/ jessie/main libc6 amd64 2.19-18+deb8u4 [4,665 kB]
-Get:2 http://http.debian.net/debian/ jessie/main libasan1 amd64 4.9.2-10 [195 kB]
-Get:3 http://http.debian.net/debian/ jessie/main libatomic1 amd64 4.9.2-10 [8,992 B]
-Get:4 http://http.debian.net/debian/ jessie/main libcilkrts5 amd64 4.9.2-10 [40.1 kB]
-Get:5 http://http.debian.net/debian/ jessie/main libisl10 amd64 0.12.2-2 [440 kB]
-Get:6 http://http.debian.net/debian/ jessie/main libgomp1 amd64 4.9.2-10 [37.8 kB]
-Get:7 http://http.debian.net/debian/ jessie/main libcloog-isl4 amd64 0.18.2-1+b2 [61.8 kB]
-Get:8 http://http.debian.net/debian/ jessie/main libmpfr4 amd64 3.1.2-2 [527 kB]
-Get:9 http://http.debian.net/debian/ jessie/main libitm1 amd64 4.9.2-10 [29.2 kB]
-Get:10 http://http.debian.net/debian/ jessie/main liblsan0 amd64 4.9.2-10 [92.8 kB]
-Get:11 http://http.debian.net/debian/ jessie/main libquadmath0 amd64 4.9.2-10 [129 kB]
-Get:12 http://http.debian.net/debian/ jessie/main libmpc3 amd64 1.0.2-1 [39.3 kB]
-Get:13 http://http.debian.net/debian/ jessie/main gcc amd64 4:4.9.2-2 [5,136 B]
-Get:14 http://http.debian.net/debian/ jessie/main libtsan0 amd64 4.9.2-10 [212 kB]
-Get:15 http://http.debian.net/debian/ jessie/main libc-dev-bin amd64 2.19-18+deb8u4 [237 kB]
-Get:16 http://http.debian.net/debian/ jessie/main libubsan0 amd64 4.9.2-10 [82.4 kB]
-Get:17 http://http.debian.net/debian/ jessie-updates/main linux-libc-dev amd64 3.16.7-ckt25-2 [1,023 kB]
-Get:18 http://http.debian.net/debian/ jessie/main binutils amd64 2.25-5 [3,516 kB]
-Get:19 http://http.debian.net/debian/ jessie/main make amd64 4.0-8.1 [349 kB]
-Get:20 http://http.debian.net/debian/ jessie/main cpp-4.9 amd64 4.9.2-10 [5,169 kB]
-Get:21 http://http.debian.net/debian/ jessie/main cpp amd64 4:4.9.2-2 [17.3 kB]
-Get:22 http://http.debian.net/debian/ jessie/main libgcc-4.9-dev amd64 4.9.2-10 [2,066 kB]
-Get:23 http://http.debian.net/debian/ jessie/main gcc-4.9 amd64 4.9.2-10 [5,352 kB]
-Get:24 http://http.debian.net/debian/ jessie/main libc6-dev amd64 2.19-18+deb8u4 [2,002 kB]
-Get:25 http://http.debian.net/debian/ jessie/main manpages-dev all 3.74-1 [1,865 kB]
-Fetched 28.2 MB in 2s (12.3 MB/s)
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 29069 files and directories currently installed.)
-Preparing to unpack .../libc6_2.19-18+deb8u4_amd64.deb ...
-debconf: unable to initialize frontend: Dialog
-debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
-debconf: falling back to frontend: Readline
-debconf: unable to initialize frontend: Readline
-debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.20.2 /usr/local/share/perl/5.20.2 /usr/lib/x86_64-linux-gnu/perl5/5.20 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.20 /usr/share/perl/5.20 /usr/local/lib/site_perl .) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
-debconf: falling back to frontend: Teletype
-Unpacking libc6:amd64 (2.19-18+deb8u4) over (2.19-18+deb8u2) ...
-Setting up libc6:amd64 (2.19-18+deb8u4) ...
-debconf: unable to initialize frontend: Dialog
-debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
-debconf: falling back to frontend: Readline
-debconf: unable to initialize frontend: Readline
-debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC contains: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.20.2 /usr/local/share/perl/5.20.2 /usr/lib/x86_64-linux-gnu/perl5/5.20 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.20 /usr/share/perl/5.20 /usr/local/lib/site_perl .) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 7.)
-debconf: falling back to frontend: Teletype
-Processing triggers for libc-bin (2.19-18+deb8u2) ...
-Selecting previously unselected package libasan1:amd64.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 29069 files and directories currently installed.)
-Preparing to unpack .../libasan1_4.9.2-10_amd64.deb ...
-Unpacking libasan1:amd64 (4.9.2-10) ...
-Selecting previously unselected package libatomic1:amd64.
-Preparing to unpack .../libatomic1_4.9.2-10_amd64.deb ...
-Unpacking libatomic1:amd64 (4.9.2-10) ...
-Selecting previously unselected package libcilkrts5:amd64.
-Preparing to unpack .../libcilkrts5_4.9.2-10_amd64.deb ...
-Unpacking libcilkrts5:amd64 (4.9.2-10) ...
-Selecting previously unselected package libisl10:amd64.
-Preparing to unpack .../libisl10_0.12.2-2_amd64.deb ...
-Unpacking libisl10:amd64 (0.12.2-2) ...
-Selecting previously unselected package libcloog-isl4:amd64.
-Preparing to unpack .../libcloog-isl4_0.18.2-1+b2_amd64.deb ...
-Unpacking libcloog-isl4:amd64 (0.18.2-1+b2) ...
-Selecting previously unselected package libgomp1:amd64.
-Preparing to unpack .../libgomp1_4.9.2-10_amd64.deb ...
-Unpacking libgomp1:amd64 (4.9.2-10) ...
-Selecting previously unselected package libitm1:amd64.
-Preparing to unpack .../libitm1_4.9.2-10_amd64.deb ...
-Unpacking libitm1:amd64 (4.9.2-10) ...
-Selecting previously unselected package liblsan0:amd64.
-Preparing to unpack .../liblsan0_4.9.2-10_amd64.deb ...
-Unpacking liblsan0:amd64 (4.9.2-10) ...
-Selecting previously unselected package libmpfr4:amd64.
-Preparing to unpack .../libmpfr4_3.1.2-2_amd64.deb ...
-Unpacking libmpfr4:amd64 (3.1.2-2) ...
-Selecting previously unselected package libquadmath0:amd64.
-Preparing to unpack .../libquadmath0_4.9.2-10_amd64.deb ...
-Unpacking libquadmath0:amd64 (4.9.2-10) ...
-Selecting previously unselected package libtsan0:amd64.
-Preparing to unpack .../libtsan0_4.9.2-10_amd64.deb ...
-Unpacking libtsan0:amd64 (4.9.2-10) ...
-Selecting previously unselected package libubsan0:amd64.
-Preparing to unpack .../libubsan0_4.9.2-10_amd64.deb ...
-Unpacking libubsan0:amd64 (4.9.2-10) ...
-Selecting previously unselected package libmpc3:amd64.
-Preparing to unpack .../libmpc3_1.0.2-1_amd64.deb ...
-Unpacking libmpc3:amd64 (1.0.2-1) ...
-Selecting previously unselected package binutils.
-Preparing to unpack .../binutils_2.25-5_amd64.deb ...
-Unpacking binutils (2.25-5) ...
-Selecting previously unselected package cpp-4.9.
-Preparing to unpack .../cpp-4.9_4.9.2-10_amd64.deb ...
-Unpacking cpp-4.9 (4.9.2-10) ...
-Selecting previously unselected package cpp.
-Preparing to unpack .../cpp_4%3a4.9.2-2_amd64.deb ...
-Unpacking cpp (4:4.9.2-2) ...
-Selecting previously unselected package libgcc-4.9-dev:amd64.
-Preparing to unpack .../libgcc-4.9-dev_4.9.2-10_amd64.deb ...
-Unpacking libgcc-4.9-dev:amd64 (4.9.2-10) ...
-Selecting previously unselected package gcc-4.9.
-Preparing to unpack .../gcc-4.9_4.9.2-10_amd64.deb ...
-Unpacking gcc-4.9 (4.9.2-10) ...
-Selecting previously unselected package gcc.
-Preparing to unpack .../gcc_4%3a4.9.2-2_amd64.deb ...
-Unpacking gcc (4:4.9.2-2) ...
-Selecting previously unselected package libc-dev-bin.
-Preparing to unpack .../libc-dev-bin_2.19-18+deb8u4_amd64.deb ...
-Unpacking libc-dev-bin (2.19-18+deb8u4) ...
-Selecting previously unselected package linux-libc-dev:amd64.
-Preparing to unpack .../linux-libc-dev_3.16.7-ckt25-2_amd64.deb ...
-Unpacking linux-libc-dev:amd64 (3.16.7-ckt25-2) ...
-Selecting previously unselected package libc6-dev:amd64.
-Preparing to unpack .../libc6-dev_2.19-18+deb8u4_amd64.deb ...
-Unpacking libc6-dev:amd64 (2.19-18+deb8u4) ...
-Selecting previously unselected package make.
-Preparing to unpack .../make_4.0-8.1_amd64.deb ...
-Unpacking make (4.0-8.1) ...
-Selecting previously unselected package manpages-dev.
-Preparing to unpack .../manpages-dev_3.74-1_all.deb ...
-Unpacking manpages-dev (3.74-1) ...
-Processing triggers for man-db (2.7.0.2-5) ...
-Setting up libasan1:amd64 (4.9.2-10) ...
-Setting up libatomic1:amd64 (4.9.2-10) ...
-Setting up libcilkrts5:amd64 (4.9.2-10) ...
-Setting up libisl10:amd64 (0.12.2-2) ...
-Setting up libcloog-isl4:amd64 (0.18.2-1+b2) ...
-Setting up libgomp1:amd64 (4.9.2-10) ...
-Setting up libitm1:amd64 (4.9.2-10) ...
-Setting up liblsan0:amd64 (4.9.2-10) ...
-Setting up libmpfr4:amd64 (3.1.2-2) ...
-Setting up libquadmath0:amd64 (4.9.2-10) ...
-Setting up libtsan0:amd64 (4.9.2-10) ...
-Setting up libubsan0:amd64 (4.9.2-10) ...
-Setting up libmpc3:amd64 (1.0.2-1) ...
-Setting up binutils (2.25-5) ...
-Setting up cpp-4.9 (4.9.2-10) ...
-Setting up cpp (4:4.9.2-2) ...
-Setting up libgcc-4.9-dev:amd64 (4.9.2-10) ...
-Setting up gcc-4.9 (4.9.2-10) ...
-Setting up gcc (4:4.9.2-2) ...
-Setting up libc-dev-bin (2.19-18+deb8u4) ...
-Setting up linux-libc-dev:amd64 (3.16.7-ckt25-2) ...
-Setting up libc6-dev:amd64 (2.19-18+deb8u4) ...
-Setting up make (4.0-8.1) ...
-Setting up manpages-dev (3.74-1) ...
-Processing triggers for libc-bin (2.19-18+deb8u2) ...

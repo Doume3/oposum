@@ -16,15 +16,12 @@ data["apps"].each do |app|
 				tabParam = app["parametresApp"].split(/ /)
 				tabParam.each do |param|
 					if nomVM = param.match(/{{IPVM:(.+)}}/)
-						puts "NOMVM : #{nomVM[1]}"
 						adr = `rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`
-						puts "ADR : #{adr}"
+						adr = adr.chomp
 						cmd = "ssh root@#{adr} 'source openstack-openrc.sh && nova list --name #{nomVM[1]}1' | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'"
-						puts "CMD : #{cmd}"
 						ip = `#{cmd}`
-						puts "IP : #{ip}"
+						ip = ip.chomp
 						app["parametresApp"] = app["parametresApp"].gsub(/{{IPVM:.+}}/, ip)
-						puts "PARAM : #{app["parametresApp"]}"
 					end
 				end
 			end
