@@ -7,7 +7,7 @@ if [ $# -ne 4 ]; then
   exit $ERR_ARGS
 fi
 
-echo "- Vérification des parametres";
+echo -e "\n\e[1;44m   Vérification des paramètres   \e[0m";
 case $3 in
     client)
 	;;
@@ -29,10 +29,11 @@ ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
 # On se connecte au controleur pour récupérer l'IP de la VM
 IP=`ssh root@$ADR "source openstack-openrc.sh && nova list --name $1" | cut -d '|' -f 7 | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
 
-echo "- Copie de l'application ($2) sur la VM"
+echo -e "\n\e[1;44m   Copie de l'application ($2) sur la VM   \e[0m"
 scp -q -p -r ../apps/$2 debian@$IP: >> $LOG
 
-echo "- Démarrage de l'application"
+echo -e "\n\e[1;44m   Démarrage de l'application   \e[0m"
 ssh -q debian@$IP "cd $2; make $3; ls -l; ./$3 $4" >> $LOG &
+echo -e "\e[1;42m   Application démarrée   \e[0m"
 
 exit 0

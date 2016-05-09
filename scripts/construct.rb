@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'json'
+require 'colorize'
 
 file = File.read('config.json')
 data = JSON.parse(file)
@@ -7,11 +8,14 @@ data = JSON.parse(file)
 data["apps"].each do |app|
 	print "\n"
 	for numVM in 1..app["nbVMs"]
-		puts "### Création de la machine virtuelle '#{app["nomVMs"]}#{numVM}'"
+		puts "###############################".blue
+		puts "   VMSetup (#{app["nomVMs"]}#{numVM})".blue
+		puts "###############################".blue
 		resVM = system("./VMSetup.sh \"#{app["typeVMs"]}\" \"#{app["nomVMs"]}#{numVM}\"")
 		if resVM != false
-			puts "### Machine virtuelle créée avec succès (#{app["nomVMs"]}#{numVM})"
-			puts "### Installation de l'application '#{app["nomApp"]}'"
+			puts "######################".blue
+			puts "   appSetup (#{app["nomApp"]})".blue
+			puts "######################".blue
 			if app["typeApp"] == "client"
 				tabParam = app["parametresApp"].split(/ /)
 				tabParam.each do |param|
@@ -26,15 +30,13 @@ data["apps"].each do |app|
 				end
 			end
 			resApp = system("./appSetup.sh \"#{app["nomVMs"]}#{numVM}\" \"#{app["nomApp"]}\" \"#{app["typeApp"]}\" \"#{app["parametresApp"]}\"")
-			if resApp != false
-        	      		puts "### Application installée avec succès (#{app["nomApp"]})"
-        	   	else
+			if resApp == false
         	               	puts "### Une erreur est survenue, l'application (#{app["nomApp"]}) n'a pas été installée"
         	        end
 		else
 			puts "### Une erreur est survenue, la machine virtuelle (#{app["nomVMs"]}#{numVM}) n'a pas été créée"
 		end
-		print "\n\n"
+		print "\n##################################################\n".blue
 	end
 end
 print "\n"

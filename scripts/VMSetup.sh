@@ -7,7 +7,7 @@ if [ $# -ne 2 ]; then
   exit $ERR_ARGS
 fi
 
-echo "- Vérification de la taille de la VM ($1)";
+echo -e "\n\e[1;44m   Vérification de la taille de la VM ($1)   \e[0m";
 case $1 in
     xs|small|medium|large|xlarge)
         ;;
@@ -23,15 +23,16 @@ LOG="logs/$2/VMSetup.log"
 ADR=`rake roles:show | grep 'controller' | grep -o -E '[^: ]*\.grid5000\.fr'`;
 echo "# Controleur: $ADR" >> $LOG
 
+echo -e "\n\e[1;44m   Vérification de la Key Pair   \e[0m";
 KEYPAIR=`ssh root@$ADR 'source openstack-openrc.sh && nova keypair-list' | grep -o -E 'mainKey'`;
 if [ -z $KEYPAIR ]; then
-        echo "- Ajout de la Key Pair";
+        echo -e "\e[1;42m   Ajout de la Key Pair   \e[0m";
         cat ~/.ssh/id_rsa.pub | ssh root@$ADR "source openstack-openrc.sh && nova keypair-add --pub_key - mainKey"
 fi
 
 NOMSVMS=`ssh root@$ADR 'source openstack-openrc.sh && nova list' | cut -d '|' -f 3 | grep -o -E '([a-zA-Z0-9_]+)' | grep -v 'Name'`;
 
-echo "- Vérification du nom de la VM ($2)";
+echo -e "\n\e[1;44m   Vérification du nom de la VM ($2)   \e[0m";
 if ! [[ "$2" =~ ^[a-zA-Z0-9_]+$ ]]; then
 	echo "Le nom de la VM doit être alphanumerique (a-zA-Z0-9_)"
 	exit $ERR_ARGS
@@ -43,7 +44,7 @@ for NOMVM in $NOMSVMS; do
 	fi
 done
 
-echo "- Création de la VM...";
+echo -e "\n\e[1;44m   Création de la VM   \e[0m";
 rake cmd cmd="
 echo '# Execution du source openstack';
 source openstack-openrc.sh;
@@ -73,18 +74,18 @@ echo \"# Ajout de l IP publique (\$IP_PUB) a la VM\";
 nova add-floating-ip $2 \$IP_PUB;
 " host=controller >> $LOG
 
-echo "- VM créée";
+echo -e "\e[1;42m   VM créée   \e[0m";
 
 # Connexion au controleur pour récupèrer l'IP de la VM
 IP=`ssh root@$ADR "source openstack-openrc.sh && nova list --name $2" | grep -o -E '(10\.([0-9]{1,3}\.){2}[0-9]{1,3})'`;
 
-echo "- En attente de connexion ssh disponible ($IP)";
+echo -e "\n\e[1;44m   En attente de connexion SSH disponible ($IP)   \e[0m";
 while ! ssh -q debian@$IP 'exit'; do
 	sleep 2;
 done
 
-echo "- Mise à jour de la VM...";
-ssh -q debian@$IP "sudo apt-get -y update; sudo apt-get -y install gcc make;" >> $LOG;
-echo "- Mise à jour réussie";
+echo -e "\n\e[1;44m   Mise à jour de la VM   \e[0m";
+ssh -q debian@$IP "sudo apt-get -yq update; export TERM=linux; sudo apt-get -yq install gcc make > /dev/null 2>&1;" >> $LOG;
+echo -e "\e[1;42m   Mise à jour réussie   \e[0m\n";
 
 exit 0
