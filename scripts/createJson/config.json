@@ -1,0 +1,20 @@
+{
+   "apps" : [
+      {
+         "nbVMs" : 1,
+         "nomApp" : "chat",
+         "nomVMs" : "NeptuneS",
+         "parametresApp" : "param1 param2",
+         "typeApp" : "serveur",
+         "typeVMs" : "xs"
+      },
+      {
+         "nbVMs" : 1,
+         "nomApp" : "chat",
+         "nomVMs" : "test !",
+         "parametresApp" : "paraaam oki",
+         "typeApp" : "client",
+         "typeVMs" : "small"
+      }
+   ]
+}
