@@ -1,11 +1,11 @@
-// COMPILATION : g++ -o createConfig *.cpp -std=c++11 (*.cpp correspond potentiellment à createJson, json_reader, json_value, json_writer)
+// COMPILATION : g++ -o configSetup createConfig.cpp createConfig/*.cpp (*.cpp correspond normalement à json_reader, json_value, json_writer)
 
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "json/json.h"
+#include "createConfig/json/json.h"
 
 using namespace std;
 
