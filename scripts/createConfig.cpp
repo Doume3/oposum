@@ -47,16 +47,22 @@ void setApp(Json::Value &app){
 
 int main(){
 
+	system("clear");
+
 	Json::Value config;
 	Json::Value apps(Json::arrayValue);
 
 	while(true){
 
-		cout << endl << "##### MENU #####" << endl;
-		cout << "1. Créer/modifier une configuration" << endl;
-		cout << "2. Charger une configuration" << endl;
-		cout << "3. Envoyer la configuration sur Grid'5000" << endl;
-		cout << "4. Quitter" << endl;
+		cout << "##### MENU #####" << endl;
+		cout << "1. Voir la configuration actuelle" << endl;
+		cout << "2. Charger un fichier de configuration" << endl;
+		cout << "3. Ajouter une application" << endl;
+		cout << "4. Modifier une application" << endl;
+		cout << "5. Supprimer une application" << endl;
+		cout << "6. Enregistrer le fichier de configuration" << endl;
+		cout << "7. Envoyer le fichier de configuration sur Grid'5000" << endl;
+		cout << "8. Quitter" << endl;
 
 		cout << "> ";
 		int choixMenu;
@@ -65,141 +71,181 @@ int main(){
 
 		switch(choixMenu){
 			case 1:{
-				bool exitCreateConfig = false;
-				while(true){
-					if(exitCreateConfig) break;
-					cout << endl << "##### Création de la configuration #####" << endl;
-					cout << "1. Ajouter une application" << endl;
-					cout << "2. Modifier une application" << endl;
-					cout << "3. Supprimer une application" << endl;
-					cout << "4. Voir la configuration actuelle" << endl;
-					cout << "5. Enregistrer le fichier de configuration" << endl;
-					cout << "6. Retour au menu" << endl;
+				cout << apps << endl;
 
-					cout << "> ";
-					int choixCreateConfig;
-					cin >> choixCreateConfig;
-					cin.ignore();
-					cout << endl;
-
-					switch(choixCreateConfig){
-						case 1:{
-							Json::Value app;
-							setApp(app);
-
-							cout << app << endl;
-							apps.append(app);
-							config["apps"] = apps;
-
-							break;
-						}
-						case 2:{
-							int index;
-							cout << apps << endl;
-							cout << "Index de l'application à modifier (commence à 0) : ";
-							cin >> index;
-							cin.ignore();
-							cout << endl;
-
-							cout << apps[index] << endl;
-							Json::Value app;
-							setApp(app);
-
-							int confirm;
-							cout << apps[index] << endl;
-							cout << "deviendra :" << endl;
-							cout << app << endl;
-							cout << "Modifier cette application (0/1) : ";
-							cin >> confirm;
-							cout << endl;
-
-							if(confirm == 1){
-								apps[index] = app;
-								config["apps"] = apps;
-								cout << apps << endl;
-								cout << "Application modifiée" << endl;
-							}
-							else
-								cout << "Application non modifiée" << endl;
-
-							break;
-						}
-						case 3:{
-							int index;
-							cout << config["apps"] << endl;
-							cout << "Index de l'application à supprimer (commence à 0) : ";
-							cin >> index;
-							cin.ignore();
-							cout << endl;
-
-							int confirm;
-							cout << apps[index] << endl;
-							cout << "Supprimer cette application (0/1) : ";
-							cin >> confirm;
-							cout << endl;
-
-							if(confirm == 1){
-								Json::Value val;
-								apps.removeIndex(index, &val);
-								config["apps"] = apps;
-								cout << apps << endl;
-								cout << "Application supprimée" << endl;
-							}
-							else
-								cout << "Application non supprimée" << endl;
-
-							break;
-						}
-						case 4:{
-							cout << apps << endl;
-							break;
-						}
-						case 5:{
-							ofstream fichier;
-    						fichier.open("config.json");
-
-    						Json::StyledWriter styledWriter;
-    						fichier << styledWriter.write(config);
-
-    						fichier.close();
-    						cout << "Fichier de configuration enregistré" << endl;
-							break;
-						}
-						case 6:{
-							exitCreateConfig = true;
-							break;
-						}
-						default:
-							break;
-					}
-				}
+				cout << endl;
 				break;
 			}
 			case 2:{
 				Json::Reader reader;
+				Json::Value configTemp;
 				ifstream fichier("config.json", ifstream::binary);
-				reader.parse(fichier, config, false);
-				apps = config["apps"];
-				cout << "Configuration chargé" << endl;
-				cout << config << endl;
+
+				if(fichier){
+					reader.parse(fichier, configTemp, false);
+					if(apps.size() > 0){
+						int confirm;
+						cout << apps << endl;
+						cout << "deviendra :" << endl;
+						cout << configTemp["apps"] << endl;
+						cout << "Confirmer (0/1) : ";
+						cin >> confirm;
+						if(confirm != 1){
+							cout << "Configuration non chargé" << endl;
+							cout << endl;
+							break;
+						}
+					}
+					config = configTemp;
+					apps = configTemp["apps"];
+					cout << apps << endl;
+					cout << "Fichier de configuration chargé" << endl;
+				}
+				else{
+					cout << "Il n'y a pas de fichier de configuration dans ce répertoire" << endl;
+				}
+
+				fichier.close();
+				cout << endl;
 				break;
 			}
 			case 3:{
-				cout << "Nom d'utilisateur Grid'5000 : ";
-				string user = "";
-				getline(cin, user);
+				Json::Value app;
+				setApp(app);
 
-				cout << "Site Grid'5000 : ";
-				string site = "";
-				getline(cin, site);
+				cout << app << endl;
+				apps.append(app);
+				config["apps"] = apps;
 
-				string cmd = "scp config.json " + user + "@access.grid5000.fr:" + site;
-				system(cmd.c_str());
-
-				cout << "Configuration envoyé sur Grid'5000" << endl;
+				cout << endl;
 				break;
 			}
-			case 4:
+			case 4:{
+				if(apps.size() > 0){
+					int index;
+					cout << apps << endl;
+					do{
+						cout << "Index de l'application à modifier (0 à " << apps.size() - 1 << ") : ";
+						cin >> index;
+						cin.ignore();
+					}while(index < 0 || index > apps.size() - 1);
+
+					cout << apps[index] << endl;
+					Json::Value app;
+					setApp(app);
+
+					int confirm;
+					cout << apps[index] << endl;
+					cout << "deviendra :" << endl;
+					cout << app << endl;
+					cout << "Modifier cette application (0/1) : ";
+					cin >> confirm;
+
+					if(confirm == 1){
+						apps[index] = app;
+						config["apps"] = apps;
+						cout << apps << endl;
+						cout << "Application modifiée" << endl;
+					}
+					else{
+						cout << "Application non modifiée" << endl;
+					}
+				}
+				else{
+					cout << "Aucune application à modifier" << endl;
+				}
+
+				cout << endl;
+				break;
+			}
+			case 5:{
+				if(apps.size() > 0){
+					int index;
+					cout << apps << endl;
+					do{
+						cout << "Index de l'application à supprimer (0 à " << apps.size() - 1 << ") : ";
+						cin >> index;
+						cin.ignore();
+					}while(index < 0 || index > apps.size() - 1);
+
+					int confirm;
+					cout << apps[index] << endl;
+					cout << "Supprimer cette application (0/1) : ";
+					cin >> confirm;
+
+					if(confirm == 1){
+						Json::Value val;
+						apps.removeIndex(index, &val);
+						config["apps"] = apps;
+						cout << apps << endl;
+						cout << "Application supprimée" << endl;
+					}
+					else{
+						cout << "Application non supprimée" << endl;
+					}
+				}
+				else{
+					cout << "Aucune application à supprimer" << endl;
+				}
+
+				cout << endl;
+				break;
+			}
+			case 6:{
+				ifstream fichier("config.json", ifstream::binary);
+				if(fichier){
+					Json::Reader reader;
+					Json::Value configTemp;
+					reader.parse(fichier, configTemp, false);
+
+					int confirm;
+					cout << configTemp["apps"] << endl;
+					cout << "deviendra :" << endl;
+					cout << apps << endl;
+					cout << "Confirmer (0/1) : ";
+					cin >> confirm;
+					if(confirm != 1){
+						cout << "Configuration non enregistré" << endl;
+						cout << endl;
+						break;
+					}
+				}
+				fichier.close();
+
+				ofstream fichierL("config.json");
+				Json::StyledWriter styledWriter;
+				fichierL << styledWriter.write(config);
+				cout << "Fichier de configuration enregistré" << endl;
+				
+				fichierL.close();
+				cout << endl;
+				break;
+			}
+			case 7:{
+				ifstream fichier("config.json", ifstream::binary);
+				if(fichier){
+					cout << "Nom d'utilisateur Grid'5000 : ";
+					string user = "";
+					getline(cin, user);
+
+					cout << "Site Grid'5000 : ";
+					string site = "";
+					getline(cin, site);
+
+					string cmd = "scp config.json " + user + "@access.grid5000.fr:" + site;
+					system(cmd.c_str());
+
+					cout << "Configuration envoyé sur Grid'5000" << endl;
+				}
+				else{
+					cout << "Il n'y a pas de fichier de configuration dans ce répertoire" << endl;
+				}
+
+				fichier.close();
+				cout << endl;
+				break;
+			}
+			case 8:
 				return EXIT_SUCCESS;
 			default:
 				break;
