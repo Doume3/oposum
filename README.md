@@ -6,4 +6,4 @@ framapad : https://bimestriel.framapad.org/p/oposum
 
 framapad presentation : https://hebdo.framapad.org/p/presentationOposum
 
-Vidéo de démonstration : https://www.youtube.com/watch?v=FkkEE03ZBfQ
+Vidéo de démonstration : https://www.youtube.com/watch?v=H7nBEsD73Oc
