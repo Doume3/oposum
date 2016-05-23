@@ -8,14 +8,8 @@ data = JSON.parse(file)
 data["apps"].each do |app|
 	print "\n"
 	for numVM in 1..app["nbVMs"]
-		puts "###############################".blue
-		puts "   VMSetup (#{app["nomVMs"]}#{numVM})".blue
-		puts "###############################".blue
 		resVM = system("./VMSetup.sh \"#{app["typeVMs"]}\" \"#{app["nomVMs"]}#{numVM}\"")
 		if resVM != false
-			puts "######################".blue
-			puts "   appSetup (#{app["nomApp"]})".blue
-			puts "######################".blue
 			if app["typeApp"] == "client"
 				tabParam = app["parametresApp"].split(/ /)
 				tabParam.each do |param|
@@ -31,12 +25,13 @@ data["apps"].each do |app|
 			end
 			resApp = system("./appSetup.sh \"#{app["nomVMs"]}#{numVM}\" \"#{app["nomApp"]}\" \"#{app["typeApp"]}\" \"#{app["parametresApp"]}\"")
 			if resApp == false
-        	               	puts "### Une erreur est survenue, l'application (#{app["nomApp"]}) n'a pas été installée"
+        	               	puts "### Une erreur est survenue, l'application (#{app["nomApp"]}) n'a pas été installée".red
         	        end
 		else
-			puts "### Une erreur est survenue, la machine virtuelle (#{app["nomVMs"]}#{numVM}) n'a pas été créée"
+			puts "### Une erreur est survenue, la machine virtuelle (#{app["nomVMs"]}#{numVM}) n'a pas été créée".red
 		end
-		print "\n##################################################\n".blue
-	end
+		print "\n##################################################\n".magenta
+		sleep 1	
+end
 end
 print "\n"
